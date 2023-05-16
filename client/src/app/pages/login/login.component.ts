@@ -1,27 +1,40 @@
 import { Location } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { Auth } from '@angular/fire/auth';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Auth, User } from '@angular/fire/auth';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FirebaseUISignInFailure, FirebaseUISignInSuccessWithAuthResult, FirebaseuiAngularLibraryService } from 'firebaseui-angular';
+import { Subscription } from 'rxjs';
+import { FirebaseAuthenticationService } from 'src/app/services/firebase-authentication.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnDestroy, OnInit{
   private auth: Auth = inject(Auth)
   loginForm!: FormGroup;
+  authState$!: Subscription;
+  authState!: User | null;
 
   constructor(
     private firebaseuiAngularLibraryService: FirebaseuiAngularLibraryService,
     private router: Router,
+    private authSvc: FirebaseAuthenticationService,
     private location: Location,
     private fb: FormBuilder 
   ) {
     this.firebaseuiAngularLibraryService.firebaseUiInstance.disableAutoSignIn();
+    this.authState$ = this.authSvc.authState$.subscribe((state: User | null) => this.authState = state);
   }
+  
+  ngOnInit(): void {
+    if (null == this.authState) {
+      this.createForm();
+    }
+  }
+
 
   createForm() {
     this.loginForm = this.fb.group({
@@ -30,8 +43,13 @@ export class LoginComponent {
     })
   }
 
-  login() {
-    
+  async login() {
+    const loginData = {
+      email: this.loginForm.value.email,
+      password: this.loginForm.value.password
+    }
+    await this.authSvc.firebaseLogin(loginData)
+    console.log(this.authState)
   }
 
   // Code for firebaseAuth UI
@@ -51,4 +69,7 @@ export class LoginComponent {
   // Back Button
   goBack(): void {this.location.back()}
 
+  ngOnDestroy(): void {
+    this.authState$.unsubscribe()
+  }
 }

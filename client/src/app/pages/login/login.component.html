@@ -1,6 +1,6 @@
 <div class="login-page-container">
     <div class="form-container">
-        <form class="form-input-container" [formGroup]="loginForm" (ngSubmit)="login()">
+        <form class="form-input-container" [formGroup]="loginForm" (ngSubmit)="login()" *ngIf="!authState">
             <table>
                 <tr>
                     <td><label for="email">Email</label></td>
