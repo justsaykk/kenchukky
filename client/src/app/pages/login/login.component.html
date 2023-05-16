@@ -1,3 +1,22 @@
-<p>login works!</p>
-<firebase-ui (signInSuccessWithAuthResult)="successCallback($event)" (signInFailure)="errorCallback($event)"
-(uiShown)="uiShownCallback()"></firebase-ui>   
+<div class="login-page-container">
+    <div class="form-container">
+        <form class="form-input-container" [formGroup]="loginForm" (ngSubmit)="login()" *ngIf="!authState">
+            <table>
+                <tr>
+                    <td><label for="email">Email</label></td>
+                    <td><input id="email" type="email" formControlName="email"></td>
+                </tr>
+                <tr>
+                    <td><label for="password">Password</label></td>
+                    <td><input id="password" type="password" formControlName="password"></td>
+                </tr>
+            </table>
+            <div class="button-container">
+                <button type="submit">Login</button>
+                <button type="button" (click)="goBack()">Back</button>
+            </div>
+        </form>
+    </div>
+    <firebase-ui (signInSuccessWithAuthResult)="successCallback($event)" (signInFailure)="errorCallback($event)"
+        (uiShown)="uiShownCallback()"></firebase-ui>
+</div>
