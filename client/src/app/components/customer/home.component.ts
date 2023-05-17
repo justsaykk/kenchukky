@@ -6,7 +6,7 @@ import {
   OceanCleanlinessLevels,
   Trash,
   TrashImages,
-} from '../models/models';
+} from '../../models/models';
 
 @Component({
   selector: 'app-home',
@@ -29,9 +29,9 @@ export class HomeComponent implements OnInit {
   oceanAnimalsCollection: OceanAnimal[] = [];
   oceanAnimalImages = OceanAnimalImages;
   animalCssClass = AnimalCssClass;
-  
+
   // <--------------- USER VARIABLES --------------->
-  challenges = [1, 2, 3, 4]
+  challenges = [1, 2, 3, 4];
   progressValue: number = 0;
 
   ngOnInit(): void {
@@ -39,9 +39,9 @@ export class HomeComponent implements OnInit {
   }
 
   calculateProgress(event: any) {
-    console.info(">>> calculate progress: ", event.target.checked);
-    if(event.target.checked) this.progressValue += 25; 
-    if(event.target.checked === false) this.progressValue -= 25; 
+    console.info('>>> calculate progress: ', event.target.checked);
+    if (event.target.checked) this.progressValue += 25;
+    if (event.target.checked === false) this.progressValue -= 25;
   }
 
   createMarineWildlife(amountOfMarineAnimals: number) {
@@ -91,6 +91,6 @@ export class HomeComponent implements OnInit {
   }
 
   randomizer(numMax: number, numMin: number = 0) {
-    return (Math.floor(Math.random() * (numMax - numMin)) + numMin);
+    return Math.floor(Math.random() * (numMax - numMin)) + numMin;
   }
 }
