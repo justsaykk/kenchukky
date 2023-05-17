@@ -11,6 +11,8 @@ import { LoginComponent } from './pages/login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire/compat';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
+import { QrcodeComponent } from './components/qrcode/qrcode.component';
+import { QRCodeModule } from 'angularx-qrcode';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -27,18 +29,21 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
   declarations: [
     AppComponent,
     LoginComponent,
-    SignUpComponent
+    SignUpComponent,
+    QrcodeComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    // Firebase Imports
     FirebaseUIModule.forRoot(firebaseUiAuthConfig),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
-    // This is added so that FirebaseUIModule will work.
-    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireModule.initializeApp(environment.firebase), // Added so that FirebaseUIModule will work.
+    // QR Code
+    QRCodeModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
