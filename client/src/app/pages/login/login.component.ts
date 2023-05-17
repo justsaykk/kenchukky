@@ -13,7 +13,6 @@ import { FirebaseAuthenticationService } from 'src/app/services/firebase-authent
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnDestroy, OnInit{
-  private auth: Auth = inject(Auth)
   loginForm!: FormGroup;
   authState$!: Subscription;
   authState!: User | null;
@@ -49,7 +48,7 @@ export class LoginComponent implements OnDestroy, OnInit{
       password: this.loginForm.value.password
     }
     await this.authSvc.firebaseLogin(loginData)
-    console.log(this.authState)
+    console.log(`user: ${this.authState?.displayName} is logged in.`)
   }
 
   // Code for firebaseAuth UI
