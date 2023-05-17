@@ -1,1 +1,24 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --primary-color: #f55353;
+  --primary-dark-color: #354259;
+  --primary-light-color: #fefcf3;
+  --background-color: #354259;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--primary-text-color);
+  background-color: var(--background-color);
+  font-family: "Source Code Pro", monospace;
+}
+
+a {
+  text-decoration: none;
+  color: var(--primary-text-color);
+  cursor: pointer;
+}
