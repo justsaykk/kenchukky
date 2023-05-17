@@ -1,6 +1,5 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { CollectionReference, Firestore, addDoc, collection, getDocs, query, where } from '@angular/fire/firestore';
-import { firstValueFrom, map, take } from 'rxjs';
 
 type UserData = {
   uid: string,

@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Auth, UserCredential, authState, createUserWithEmailAndPassword, signInWithEmailAndPassword, user } from '@angular/fire/auth';
 
 type UserCredentialForm = {
@@ -10,10 +10,10 @@ type UserCredentialForm = {
   providedIn: 'root'
 })
 export class FirebaseAuthenticationService {
-  private auth: Auth = inject(Auth)
   authState$ = authState(this.auth)
-
-  constructor() { }
+  constructor(
+    private auth: Auth
+    ) { }
 
   public async firebaseLogin(login: UserCredentialForm): Promise<string | null> {
     const userCredentials: UserCredential = await signInWithEmailAndPassword(this.auth, login.email, login.password);
@@ -24,4 +24,6 @@ export class FirebaseAuthenticationService {
     const userCredentials: UserCredential = await createUserWithEmailAndPassword(this.auth, newUser.email, newUser.password);
     return userCredentials.user.uid
   }
+
+  public logout() { this.auth.signOut() }
 }
