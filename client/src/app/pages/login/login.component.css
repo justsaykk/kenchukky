@@ -1,0 +1,18 @@
+.login-page-container .login-page-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-container {
+    display: flex; 
+    justify-content: center;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+}
+
+button {
+    margin: 10px auto 0px auto;
+}
