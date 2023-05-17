@@ -1,0 +1,31 @@
+.main-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.top-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.redemption-container {
+  border: solid 3px black;
+  box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px,
+    5px 5px 0px 0px;
+  border-radius: 10px;
+  width: 95%;
+  height: 90vh;
+  align-self: center;
+}
+
+.top-section-components {
+  display: flex;
+  flex-direction: column;
+  padding-top: 2vh;
+  align-items: center;
+  justify-content: space-evenly;
+  font-family: "Source Code Pro", monospace;
+  color: var(--primary-light-color);
+}
