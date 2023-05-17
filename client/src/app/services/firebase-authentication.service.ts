@@ -11,6 +11,8 @@ type UserCredentialForm = {
 })
 export class FirebaseAuthenticationService {
   authState$ = authState(this.auth)
+  user$ = user(this.auth)
+  
   constructor(
     private auth: Auth
     ) { }

@@ -20,3 +20,4 @@
     <firebase-ui *ngIf="!authState" (signInSuccessWithAuthResult)="successCallback($event)" (signInFailure)="errorCallback($event)"
         (uiShown)="uiShownCallback()"></firebase-ui>
 </div>
+<app-qrcode></app-qrcode>
