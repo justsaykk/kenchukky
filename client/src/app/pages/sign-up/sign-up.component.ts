@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
 import { FirebaseAuthenticationService } from 'src/app/services/firebase-authentication.service';
 import { FirebaseFirestoreService } from 'src/app/services/firebase-firestore.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -20,6 +21,7 @@ export class SignUpComponent implements OnDestroy, OnInit{
     private fb: FormBuilder,
     private authSvc: FirebaseAuthenticationService,
     private firestoreSvc: FirebaseFirestoreService,
+    private router: Router,
     private location: Location,
   ) {
     this.authState$ = this.authSvc.authState$.subscribe((state: User | null) => this.authState = state);
@@ -49,13 +51,16 @@ export class SignUpComponent implements OnDestroy, OnInit{
       email: this.signUpForm.value.email,
       password: this.signUpForm.value.password
     }
-    await this.authSvc.firebaseSignUp(signUpData);
+    const userUid = await this.authSvc.firebaseSignUp(signUpData);
+
     const userData = {
+      uid: userUid,
       email: this.signUpForm.value.email,
       firstName: this.signUpForm.value.firstName,
       lastName: this.signUpForm.value.lastName
     }
     await this.firestoreSvc.createNewUser(userData);
+    this.router.navigateByUrl("/")
   }
 
   goBack(): void {this.location.back()}
