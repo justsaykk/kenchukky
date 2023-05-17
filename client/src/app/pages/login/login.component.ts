@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { Auth, User } from '@angular/fire/auth';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { User } from '@angular/fire/auth';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FirebaseUISignInFailure, FirebaseUISignInSuccessWithAuthResult, FirebaseuiAngularLibraryService } from 'firebaseui-angular';
@@ -34,7 +34,6 @@ export class LoginComponent implements OnDestroy, OnInit{
     }
   }
 
-
   createForm() {
     this.loginForm = this.fb.group({
       email: this.fb.control('', [Validators.email, Validators.required]),
@@ -48,7 +47,6 @@ export class LoginComponent implements OnDestroy, OnInit{
       password: this.loginForm.value.password
     }
     await this.authSvc.firebaseLogin(loginData)
-    console.log(`user: ${this.authState?.displayName} is logged in.`)
   }
 
   // Code for firebaseAuth UI

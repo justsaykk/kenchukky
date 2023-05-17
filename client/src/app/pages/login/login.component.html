@@ -17,6 +17,6 @@
             </div>
         </form>
     </div>
-    <firebase-ui (signInSuccessWithAuthResult)="successCallback($event)" (signInFailure)="errorCallback($event)"
+    <firebase-ui *ngIf="!authState" (signInSuccessWithAuthResult)="successCallback($event)" (signInFailure)="errorCallback($event)"
         (uiShown)="uiShownCallback()"></firebase-ui>
 </div>
