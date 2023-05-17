@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
-import { Auth, UserCredential, authState, signInWithEmailAndPassword, user } from '@angular/fire/auth';
+import { Auth, UserCredential, authState, createUserWithEmailAndPassword, signInWithEmailAndPassword, user } from '@angular/fire/auth';
 
-type LoginForm = {
+type UserCredentialForm = {
   email: string,
   password: string
 }
@@ -15,9 +15,13 @@ export class FirebaseAuthenticationService {
 
   constructor() { }
 
-  public async firebaseLogin(login: LoginForm): Promise<string | null> {
+  public async firebaseLogin(login: UserCredentialForm): Promise<string | null> {
     const userCredentials: UserCredential = await signInWithEmailAndPassword(this.auth, login.email, login.password);
-    console.log(userCredentials);
+    return userCredentials.user.displayName
+  }
+
+  public async firebaseSignUp(newUser: UserCredentialForm) {
+    const userCredentials: UserCredential = await createUserWithEmailAndPassword(this.auth, newUser.email, newUser.password);
     return userCredentials.user.displayName
   }
 }
