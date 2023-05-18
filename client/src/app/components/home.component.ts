@@ -15,7 +15,7 @@ import {
 })
 export class HomeComponent implements OnInit {
   // <--------------- OCEAN VARIABLES --------------->
-  oceanQuality: number = 30;
+  oceanQuality: number = 80;
   oceanCurrentCleanliness!: string;
   oceanCleanlinessLevels = OceanCleanlinessLevels;
 
