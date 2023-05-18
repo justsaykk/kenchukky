@@ -1,0 +1,29 @@
+<div class="scanner-container">
+    <app-navbar></app-navbar>
+    <div class="card-container">
+        <mat-card class="card">
+            <mat-card-content>
+                <div class="qr-scanner">
+                    <zxing-scanner #scanner id="camera" (scanSuccess)="handleQrCodeResult($event)"></zxing-scanner>
+                </div>
+                <p>
+                    Scan the QR code from merchants to earn points
+                </p>
+
+            </mat-card-content>
+
+            <!-- <mat-card-actions>
+                <div class="header-section-2">
+                    <input matInput #containers type="number" step="1" value="1" min="1" max="10">
+                    <mat-hint align="end"> {{containers.value}}/10</mat-hint>
+                </div>
+            </mat-card-actions> -->
+        </mat-card>
+    </div>
+
+    <section class="results" *ngIf="qrResultString">
+        <small>Result</small>
+        <strong>{{ qrResultString }}</strong>
+    </section>
+
+</div>

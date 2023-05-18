@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import {firebase, firebaseui, FirebaseUIModule} from 'firebaseui-angular';
+import { firebase, firebaseui, FirebaseUIModule } from 'firebaseui-angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home.component';
@@ -8,17 +8,19 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { PointsHistoryComponent } from './components/points-history.component';
 import { NavbarComponent } from './components/navbar.component';
-import {HashLocationStrategy, LocationStrategy} from '@angular/common';
-import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
-import { provideAuth,getAuth } from '@angular/fire/auth';
-import { getFirestore, provideFirestore } from '@angular/fire/firestore'
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { LoginComponent } from './pages/login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire/compat';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
 import { QrcodeComponent } from './components/qrcode/qrcode.component';
 import { QRCodeModule } from 'angularx-qrcode';
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { QrscannerComponent } from './components/qrscanner/qrscanner.component';
 import { AnimationComponent } from './components/animation.component';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
@@ -29,8 +31,8 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
   ],
   tosUrl: '<your-tos-link>',
   privacyPolicyUrl: '<your-privacyPolicyUrl-link>',
-  credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO
-}
+  credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO,
+};
 
 @NgModule({
   declarations: [
@@ -41,7 +43,8 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     NavbarComponent,
     LoginComponent,
     SignUpComponent,
-    QrcodeComponent
+    QrcodeComponent,
+    QrscannerComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,8 +60,10 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     AngularFireModule.initializeApp(environment.firebase), // Added so that FirebaseUIModule will work.
     // QR Code
     QRCodeModule,
+    // QR Scanner
+    ZXingScannerModule
   ],
-  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
-  bootstrap: [AppComponent]
+  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
