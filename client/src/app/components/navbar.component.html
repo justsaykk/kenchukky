@@ -1,13 +1,20 @@
 <mat-toolbar class="navbar">
     <mat-toolbar-row>
-        <span [routerLink]="['/']">
-            Jack
-        </span>
-        <span >
-            YYYYY
-        </span>
-        <span class="user-icon">
-            <mat-icon> person_pin</mat-icon>
-        </span>
+        <a class="icon home-icon" [routerLink]="['/home']">
+            <mat-icon>home</mat-icon>
+        </a>
+        <span class="toolbar-spacer"></span>
+        <!-- <a class="icon home-icon" [routerLink]="['/user/qrscanner']">
+            <mat-icon>camera_alt</mat-icon>
+        </a> -->
+        <a class="icon money-icon" [routerLink]="['/points/history']">
+            <mat-icon>monetization_on</mat-icon>
+        </a>
+        <span class="toolbar-spacer"></span>
+        <!-- <span class="icons-section-2"> -->
+        <a class="icon user-icon" [routerLink]="['/points/history']">
+                <mat-icon>person_pin</mat-icon>
+            </a>
+        <!-- </span> -->
     </mat-toolbar-row>
 </mat-toolbar>

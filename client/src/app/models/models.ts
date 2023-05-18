@@ -6,27 +6,6 @@ export const TrashImages: string[] = [
   'takeout-box.png',
 ];
 
-export const OceanAnimalImages: string[] = [
-  'bluefin-fish.png',
-  'bluefish.png',
-  'clown-fish.png',
-  'crab.png',
-  'lobster.png',
-];
-
-export const AnimalCssClass: string[] = [
-    'animal--1',
-    'animal--2',
-    'animal--3',
-    'animal--4',
-    'animal--5',
-    'animal--6',
-    'animal--7',
-    'animal--8',
-    'animal--9',
-    'animal--10',
-];
-
 export class OceanAnimal {
     constructor(image: string, cssClass: string, top: string, left: string) {
         this.image = image;
