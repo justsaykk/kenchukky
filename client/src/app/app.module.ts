@@ -19,6 +19,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
 import { QrcodeComponent } from './components/qrcode/qrcode.component';
 import { QRCodeModule } from 'angularx-qrcode';
+import { AnimationComponent } from './components/animation.component';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -34,6 +35,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
 @NgModule({
   declarations: [
     AppComponent,
+    AnimationComponent,
     HomeComponent,
     PointsHistoryComponent,
     NavbarComponent,
