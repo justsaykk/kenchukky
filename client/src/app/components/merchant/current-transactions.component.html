@@ -1,5 +1,9 @@
+<div class="top-section">
+  <button [routerLink]="['/merchant', 'qr']" id="qr-button">My QR Code</button>
+</div>
+
 <div class="txn-list">
-  <mat-card *ngFor="let txn of recentTxns">
+  <mat-card class="txn" *ngFor="let txn of recentTxns">
     <mat-card-header>
       <mat-card-title>Order #{{ txn.orderId }}</mat-card-title>
       <mat-card-subtitle>{{ txn.customerName }}</mat-card-subtitle>

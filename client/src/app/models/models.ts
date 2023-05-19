@@ -55,6 +55,11 @@ export class Trash {
   left: number;
 }
 
+export interface Merchant {
+  merchantId: string;
+  merchantName: string;
+}
+
 export interface Transaction {
   orderId: number;
   customerName: string;

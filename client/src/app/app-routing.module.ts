@@ -5,6 +5,7 @@ import { PointsHistoryComponent } from './components/customer/points-history.com
 import { LoginComponent } from './pages/login/login.component';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
 import { CurrentTransactionsComponent } from './components/merchant/current-transactions.component';
+import { QrcodeComponent } from './components/merchant/qrcode.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'points/history', component: PointsHistoryComponent },
   { path: 'merchant/home', component: CurrentTransactionsComponent },
+  { path: 'merchant/qr', component: QrcodeComponent },
   { path: '**', redirectTo: '/', pathMatch: 'full' },
 ];
 

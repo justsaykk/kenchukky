@@ -17,11 +17,9 @@ import { LoginComponent } from './pages/login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire/compat';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
-import { QrcodeComponent } from './components/qrcode/qrcode.component';
+import { QrcodeComponent } from './components/merchant/qrcode.component';
 import { QRCodeModule } from 'angularx-qrcode';
 import { CurrentTransactionsComponent } from './components/merchant/current-transactions.component';
-import { TranscationHistoryComponent } from './components/merchant/transcation-history.component';
-import { MerchantProfileComponent } from './components/merchant/merchant-profile.component';
 import { VerifyTxnDialogComponent } from './components/merchant/verify-txn-dialog.component';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
@@ -45,8 +43,6 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     SignUpComponent,
     QrcodeComponent,
     CurrentTransactionsComponent,
-    TranscationHistoryComponent,
-    MerchantProfileComponent,
     VerifyTxnDialogComponent,
   ],
   imports: [
