@@ -9,6 +9,7 @@ import { Transaction } from 'src/app/models/models';
   styleUrls: ['./current-transactions.component.css'],
 })
 export class CurrentTransactionsComponent {
+  // TODO: fetch list of orders from server on init
   recentTxns: Transaction[] = [
     {
       orderId: 125,
@@ -32,7 +33,7 @@ export class CurrentTransactionsComponent {
 
   constructor(private dialog: MatDialog) {}
 
-  // TODO: after close component, add confirmed txn to list
+  // TODO: display popup when receive notification from firebase of new incoming order
   openDialog(): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
@@ -46,6 +47,7 @@ export class CurrentTransactionsComponent {
 
     const dialogRef = this.dialog.open(VerifyTxnDialogComponent, dialogConfig);
 
+    // TODO: send notification of orders status to customer after cancel or confirmation
     dialogRef.afterClosed().subscribe((txn) => {
       console.log('The dialog was closed');
       if (!!txn) this.recentTxns = [txn, ...this.recentTxns];
