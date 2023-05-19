@@ -30,7 +30,7 @@ export class QrscannerComponent implements OnInit {
   }
 
   handleQrCodeResult(resultString: string) {
-    console.debug('Result: ', resultString);
+    console.info('Result: ', resultString);
     this.qrResultString = resultString;
   }
 }
