@@ -48,7 +48,7 @@ export class CurrentTransactionsComponent {
 
     dialogRef.afterClosed().subscribe((txn) => {
       console.log('The dialog was closed');
-      this.recentTxns = [txn, ...this.recentTxns];
+      if (!!txn) this.recentTxns = [txn, ...this.recentTxns];
     });
   }
 }
