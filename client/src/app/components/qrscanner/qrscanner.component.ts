@@ -16,11 +16,11 @@ export class QrscannerComponent implements OnInit {
   availableDevices!: MediaDeviceInfo[];
   currentDevice!: MediaDeviceInfo;
 
-  constructor(private notificationService: NotificationService) { }
+  constructor(private notificationSvc: NotificationService) { }
 
   ngOnInit(): void {
     // Generate token when camera is initiated
-    this.notificationService.fbGenerateToken()
+    this.notificationSvc.fbGenerateToken()
     this.scanner.camerasFound.subscribe((devices: MediaDeviceInfo[]) => {
       this.availableDevices = devices;
 
