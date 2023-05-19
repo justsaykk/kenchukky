@@ -12,10 +12,6 @@ export class VerifyTxnDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: VerifyTxnDialogModel
   ) {}
 
-  onConfirm(): void {
-    this.dialogRef.close(true);
-  }
-
   onDismiss(): void {
     this.dialogRef.close(false);
   }

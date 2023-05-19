@@ -54,3 +54,10 @@ export class Trash {
   top: number;
   left: number;
 }
+
+export interface Transaction {
+  orderId: number;
+  customerName: string;
+  qty: number;
+  uom: string;
+}
