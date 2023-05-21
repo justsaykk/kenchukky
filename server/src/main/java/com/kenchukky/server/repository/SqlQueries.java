@@ -11,5 +11,9 @@ public class SqlQueries {
     public static final String GET_USER_ORDER = "select * from order_data where order_id = ?";
 
     public static final String GET_USER_10_LATEST_ORDERS = "select * from user_orders order by time_of_order descending where user_id = ?";
-    
+
+    //
+
+    public static final String GET_MERCHANT_DATA = "select * from merchants where merchant_id = ?";
+
 }

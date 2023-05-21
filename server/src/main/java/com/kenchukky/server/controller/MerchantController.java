@@ -3,26 +3,22 @@ package com.kenchukky.server.controller;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kenchukky.server.model.Merchant;
+import com.kenchukky.server.service.MerchantService;
+
+import jakarta.json.Json;
+
 /*
- * When merchant opens app, he sees his info displayed on the home page
- 
-- GET merchant data
- 
- 
-{
-    merchantId: string,
-    merchantName: string,
-}
- 
-e.g. {
-    merchantId: 123,
-    merchantName: 'kentucky fried chicken'
-}
  
  
 When customer submits an order, merchant receives a notification of the order data to verify
@@ -89,7 +85,33 @@ e.g. orders = [
 
 @RestController
 @RequestMapping("/api/merchant")
+@CrossOrigin()
 public class MerchantController {
 
-   
+    @Autowired
+    private MerchantService merchantService;
+
+    /*
+     * GET /api/merchant
+     * header - "merchantId"
+     */
+    @GetMapping
+    @ResponseBody
+    public ResponseEntity<String> getMerchantData(@RequestHeader("merchantId") String merchantId) {
+        
+        Optional<Merchant> mOpt = merchantService.getMerchantData(merchantId);
+
+        if (mOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body(Json.createObjectBuilder()
+                    .add("message", "Merchant Not Found")
+                    .build().toString());
+        }
+
+        return ResponseEntity.ok().body(Json.createObjectBuilder()
+                                    .add("merchantId", mOpt.get().getMerchantId())
+                                    .add("merchantName", mOpt.get().getMerchantName())
+                                    .build().toString());
+    }
+
 }
