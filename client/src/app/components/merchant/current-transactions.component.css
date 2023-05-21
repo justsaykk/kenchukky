@@ -20,7 +20,7 @@
 
 mat-card {
   display: flex;
-  width: 50%;
+  width: 90vw;
   justify-content: center;
   box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px,
     5px 5px 0px 0px;
@@ -38,6 +38,11 @@ mat-card-subtitle {
 mat-card-actions {
     padding: 3vh 0;
     display: flex;
+}
+
+p {
+  padding-right: 3vw;
+  margin: 0;
 }
 
 button {
