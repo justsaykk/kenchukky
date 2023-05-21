@@ -30,13 +30,29 @@ export class BackendService {
   ) { }
 
   storeNotificationToken(token: string, uid: string) {
-    //TODO: Fill in backend URL
-    let url = this.BACKEND + ""
+    let url = this.BACKEND + "/api/user"
     let headers = new HttpHeaders()
       .set("Content-Type", "application/json")
     
-    this.http.post(url, {[uid]: token}, {headers})
+    let body = {
+      userId: uid,
+      token: token
+    }
+    
+    this.http.post(url, body, {headers})
   }
+
+  async getNotificationToken(uid: string): Promise<String> {
+    let url = this.BACKEND + "/api/user"
+    let headers = new HttpHeaders()
+      .set("userId", uid)
+
+    return await firstValueFrom<string>(
+      this.http.get<string>(url, {headers})
+    )
+  }
+
+
 
   async postCompletedForm(merchantId: string, numberOfContainers: number, _uom: string) {
     let url = this.BACKEND + `/api/user/order`
@@ -61,6 +77,7 @@ export class BackendService {
     this.http.post(url, payload, {headers})
   }
 
+  // Helper Methods
   private formatDateTime(dateTime: Date) {
     return this.datePipe.transform(dateTime, 'dd-MM-yyyy HH:mm');
   }

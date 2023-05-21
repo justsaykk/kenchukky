@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kenchukky.server.model.NotificationToken;
 import com.kenchukky.server.model.OrderData;
 import com.kenchukky.server.model.User;
 import com.kenchukky.server.model.UserDiscounts;
 import com.kenchukky.server.repository.UserSqlRepo;
+import com.kenchukky.server.service.NotificationTokenService;
 import com.kenchukky.server.service.UserService;
 
 import jakarta.json.Json;
@@ -35,6 +37,9 @@ public class UserController {
 
     @Autowired
     private UserService orderSvc;
+
+    @Autowired
+    private NotificationTokenService tokenSvc;
     
     /*
      * GET /api/user
@@ -200,5 +205,24 @@ public class UserController {
         });
 
         return ResponseEntity.ok().body(jab.build().toString());
+    }
+
+    @PostMapping(path = "/token")
+    @ResponseBody
+    public ResponseEntity<String> postToken(
+        @RequestBody NotificationToken token
+    ) {
+        this.tokenSvc.saveToken(token);
+        return new ResponseEntity<String>(HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/token")
+    @ResponseBody
+    public ResponseEntity<String> getToken(@RequestHeader("userId") String userId) {
+        String token = this.tokenSvc.getToken(userId);
+        if (token == userId) {
+            return new ResponseEntity<String>("UserId not found", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<String>(token, HttpStatus.OK);
     }
 }
