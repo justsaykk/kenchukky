@@ -53,20 +53,44 @@ mat-card-title {
 
 mat-card-content {
   /* padding-top: 2vh;
-  padding-left: 2vw; */
+    padding-left: 2vw; */
   padding: 0;
   border-top: solid 1px black;
-
 }
 
-.transaction {
+.vouchers {
   border-bottom: solid 1px black;
   padding: 8px;
   font-size: 15px;
-  width: 89vw;
+  width: 90vw;
   display: flex;
-  flex-direction: column;
-  text-align: justify;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+h6,
+h5,
+h4 {
+  margin: 0;
+}
+
+h5 {
+    font-size: large;
+}
+
+.voucher-information {
+  width: 45vw;
+}
+
+.voucher-qty-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5vw;
+}
+
+.voucher-qty {
+    padding-right: 2vw;
 }
 
 mat-card-actions {
@@ -76,7 +100,7 @@ mat-card-actions {
 
 button {
   display: flex;
-  border-radius: 10px;
+  border-radius: 5px;
   box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px,
     5px 5px 0px 0px;
   font-family: "Source Code Pro", monospace;

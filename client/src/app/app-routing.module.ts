@@ -6,14 +6,18 @@ import { LoginComponent } from './pages/login/login.component';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
 import { AnimationComponent } from './components/animation.component';
 import { QrscannerComponent } from './components/qrscanner/qrscanner.component';
+import { ScannerConfirmationComponent } from './components/customer/scanner-confirmation.component';
+import { VoucherRedemptionComponent } from './components/customer/voucher-redemption.component';
 
 const routes: Routes = [
   {path: "login", component: LoginComponent},
   {path: "signup", component: SignUpComponent},
-  {path: 'home', component: HomeComponent},
   {path: 'animation', component: AnimationComponent},
-  {path: 'user/qrscanner', component: QrscannerComponent},
-  {path: 'points/history', component: PointsHistoryComponent},
+  {path: 'customer/home', component: HomeComponent},
+  {path: 'customer/qrscanner', component: QrscannerComponent},
+  {path: 'customer/points/history', component: PointsHistoryComponent},
+  {path: 'customer/qrscanner/confirmation', component: ScannerConfirmationComponent},
+  {path: 'customer/voucher/redemption', component: VoucherRedemptionComponent},
   {path: '**', redirectTo: '/', pathMatch: 'full'}
 ];
 

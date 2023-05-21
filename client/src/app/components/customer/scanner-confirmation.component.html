@@ -1,0 +1,38 @@
+<div class="confirmation-container">
+    <app-navbar></app-navbar>
+    <div class="card-container">
+        <iframe src="https://giphy.com/embed/l1KVcrdl7rJpFnY2s" width="480" height="360" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/world-earth-l1KVcrdl7rJpFnY2s"></a></p>
+        <mat-card class="confirmation-card card">
+            <form [formGroup]="form" (ngSubmit)="submit()">
+                <mat-card-content>
+                    <mat-form-field>
+                        <mat-label>Merchant</mat-label>
+                        <input type="text" formControlName="merchantName" matInput required>
+                    </mat-form-field>
+                    <br>
+                    <mat-form-field>
+                        <mat-label>Unit of Measurement</mat-label>
+                        <mat-select formControlName="uom">
+                            <mat-option *ngFor="let type of uom" [value]="type">
+                                {{type}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <br>
+                    <mat-form-field>
+                        <mat-label>Quantity</mat-label>
+                        <mat-select formControlName="quantity">
+                            <mat-option *ngFor="let qty of quantity" [value]="qty">
+                                {{qty}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-raised-button type="submit" [disabled]="form.invalid">Submit</button>
+                    <button mat-raised-button type="button" [routerLink]="['/customer/qrscanner']">Back</button>
+                </mat-card-actions>
+            </form>
+        </mat-card>
+    </div>
+</div>
