@@ -42,18 +42,6 @@ export class BackendService {
     this.http.post(url, body, {headers})
   }
 
-  async getNotificationToken(uid: string): Promise<String> {
-    let url = this.BACKEND + "/api/user"
-    let headers = new HttpHeaders()
-      .set("userId", uid)
-
-    return await firstValueFrom<string>(
-      this.http.get<string>(url, {headers})
-    )
-  }
-
-
-
   async postCompletedForm(merchantId: string, numberOfContainers: number, _uom: string) {
     let url = this.BACKEND + `/api/user/order`
     let headers = new HttpHeaders()

@@ -21,7 +21,7 @@ import com.kenchukky.server.model.OrderData;
 import com.kenchukky.server.model.User;
 import com.kenchukky.server.model.UserDiscounts;
 import com.kenchukky.server.repository.UserSqlRepo;
-import com.kenchukky.server.service.NotificationTokenService;
+import com.kenchukky.server.service.NotificationService;
 import com.kenchukky.server.service.UserService;
 
 import jakarta.json.Json;
@@ -39,7 +39,7 @@ public class UserController {
     private UserService orderSvc;
 
     @Autowired
-    private NotificationTokenService tokenSvc;
+    private NotificationService tokenSvc;
     
     /*
      * GET /api/user
@@ -214,15 +214,5 @@ public class UserController {
     ) {
         this.tokenSvc.saveToken(token);
         return new ResponseEntity<String>(HttpStatus.OK);
-    }
-
-    @GetMapping(path = "/token")
-    @ResponseBody
-    public ResponseEntity<String> getToken(@RequestHeader("userId") String userId) {
-        String token = this.tokenSvc.getToken(userId);
-        if (token == userId) {
-            return new ResponseEntity<String>("UserId not found", HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<String>(token, HttpStatus.OK);
     }
 }
