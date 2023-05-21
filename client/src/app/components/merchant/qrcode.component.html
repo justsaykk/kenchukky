@@ -1,0 +1,10 @@
+<mat-card *ngIf="merchant">
+  <mat-card-title>{{ merchant.merchantName }}</mat-card-title>
+  <qrcode
+    [qrdata]="merchant.merchantId"
+    [width]="384"
+    errorCorrectionLevel="M"
+  ></qrcode>
+</mat-card>
+
+<button [routerLink]="['/merchant', 'home']">Back</button>
