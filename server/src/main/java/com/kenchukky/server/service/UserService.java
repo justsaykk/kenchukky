@@ -24,6 +24,10 @@ public class UserService {
         return userSqlRepo.getUserDetails(userId);
     }
 
+    public int getUserPoints(String userId) {
+        return userSqlRepo.getUserPoints(userId);
+    }
+
     public Optional<List<UserDiscounts>> getUserDiscounts(String userId) {
         return userSqlRepo.getUserDiscounts(userId);
     }

@@ -45,6 +45,9 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<String> getUserByUID(@RequestHeader("userId") String userId) {
 
+        // retrieve points from user_orders (TO DO: update user table)
+        int points = userService.getUserPoints(userId);
+
         Optional<User> uOpt = userSqlRepo.getUserDetails(userId);
 
         if (uOpt.isEmpty()) {
@@ -54,7 +57,10 @@ public class UserController {
                             .build().toString());
         }
 
-        return ResponseEntity.ok().body(uOpt.get().toJSON().toString());
+        User user = uOpt.get();
+        user.setTotalPoints(points);
+
+        return ResponseEntity.ok().body(user.toJSON().toString());
     }
 
     /*
