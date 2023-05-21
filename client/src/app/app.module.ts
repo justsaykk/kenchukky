@@ -3,11 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { firebase, firebaseui, FirebaseUIModule } from 'firebaseui-angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './components/home.component';
+import { HomeComponent } from './components/customer/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
-import { PointsHistoryComponent } from './components/points-history.component';
-import { NavbarComponent } from './components/navbar.component';
+import { PointsHistoryComponent } from './components/customer/points-history.component';
+import { NavbarComponent } from './components/customer/navbar.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
@@ -17,12 +17,16 @@ import { LoginComponent } from './pages/login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire/compat';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
-import { QrcodeComponent } from './components/qrcode/qrcode.component';
+import { QrcodeComponent } from './components/merchant/qrcode.component';
 import { QRCodeModule } from 'angularx-qrcode';
+import { CurrentTransactionsComponent } from './components/merchant/current-transactions.component';
+import { VerifyTxnDialogComponent } from './components/merchant/verify-txn-dialog.component';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { QrscannerComponent } from './components/qrscanner/qrscanner.component';
 import { AnimationComponent } from './components/animation.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ScannerConfirmationComponent } from './components/customer/scanner-confirmation.component';
+import { VoucherRedemptionComponent } from './components/customer/voucher-redemption.component';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -45,7 +49,11 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     LoginComponent,
     SignUpComponent,
     QrcodeComponent,
+    CurrentTransactionsComponent,
+    VerifyTxnDialogComponent,
     QrscannerComponent,
+    ScannerConfirmationComponent,
+    VoucherRedemptionComponent,
   ],
   imports: [
     BrowserModule,
@@ -63,7 +71,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     // QR Code
     QRCodeModule,
     // QR Scanner
-    ZXingScannerModule
+    ZXingScannerModule,
   ],
   providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent],

@@ -611,7 +611,7 @@ svg #silouhette-fish-6 {
 /* MOVING Animation; fish body moves forward. */
 @keyframes moving {
   0% {
-    left: calc(100% - 20%);
+    left: calc(100% - -5%);
   }
   20% {
     left: calc(100% - 35%);

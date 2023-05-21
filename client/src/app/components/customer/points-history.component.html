@@ -1,6 +1,6 @@
 <div class="main-container">
     <app-navbar></app-navbar>
-    <div class="redemption-container">
+    <div class="transactions-container">
         <div class="top-section">
             <span class="top-section-components">
                 <h4>Points</h4>
@@ -15,17 +15,16 @@
             <mat-card class="card">
                 <mat-card-header class="card-header">
                     <!-- <mat-icon mat-card-avatar> restaurant_menu</mat-icon> -->
-                    <mat-card-title>Ocean Quality</mat-card-title>
-                    <mat-card-subtitle>Use reusable takeout containers to improve your ocean quality!</mat-card-subtitle>
+                    <mat-card-title>Transaction History</mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
-                    <p>Task Completion Progress:</p>
-                    <!-- Progress Bar -->
-                    <div class="challenge-cb-container">
+                    <div class="transaction" *ngFor="let hist of pointsHistoryTestInput">
+                        <span>{{hist.transaction}}</span>
+                        <span>{{hist.date}}</span>
                     </div>
                 </mat-card-content>
                 <mat-card-actions>
-                    <button>Redeem Points</button>
+                    <button [routerLink]="['/customer/voucher/redemption']">Redeem Points</button>
                 </mat-card-actions>
             </mat-card>
         </div>

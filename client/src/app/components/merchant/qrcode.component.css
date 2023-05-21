@@ -1,0 +1,44 @@
+
+button {
+  display: flex;
+  border-radius: 10px;
+  box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px,
+    5px 5px 0px 0px;
+  font-family: "Source Code Pro", monospace;
+  font-size: medium;
+  cursor: pointer;
+  border: 3px solid;
+  padding: 0.5em 0.7em;
+  position: relative;
+  user-select: none;
+  touch-action: manipulation;
+  background-color: var(--primary-light-color);
+}
+
+button:active {
+  box-shadow: 0px 0px 0px 0px;
+  top: 5px;
+  left: 5px;
+}
+
+mat-card {
+  display: flex;
+  justify-content: center;
+  box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px,
+    5px 5px 0px 0px;
+  border: 3px solid;
+  border-radius: 10px;
+  background-color: var(--primary-light-color);
+}
+
+p,
+mat-card-title,
+mat-card-subtitle {
+    font-family: "Source Code Pro", monospace;
+}
+
+mat-card-actions {
+    padding: 3vh 0;
+    display: flex;
+    justify-content: center;
+}
