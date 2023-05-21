@@ -1,0 +1,29 @@
+.scanner-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.qr-scanner {
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  align-self: center;
+}
+
+zxing-scanner {
+  display: flex;
+}
+
+video {
+  border-radius: 5%;
+}
+
+mat-card-content {
+  padding: 0 !important;
+}
+
+p {
+    padding: 10px;
+    text-align: center;
+}

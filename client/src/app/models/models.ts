@@ -4,32 +4,24 @@ export const OceanCleanlinessLevels = [
   'ocean-dirty',
 ];
 
-export const TrashImages: string[] = [
-  'plastic-cup.png',
-  'shopping-bag.png',
-  'takeout-box.png',
-];
+export const TrashImages: string[] = ['shopping-bag.png', 'takeout-box.png'];
 
-export const OceanAnimalImages: string[] = [
-  'bluefin-fish.png',
-  'bluefish.png',
-  'clown-fish.png',
-  'crab.png',
-  'lobster.png',
-];
+export const uom: string[] = ['Container(s)', 'Cup(s)'];
 
-export const AnimalCssClass: string[] = [
-  'animal--1',
-  'animal--2',
-  'animal--3',
-  'animal--4',
-  'animal--5',
-  'animal--6',
-  'animal--7',
-  'animal--8',
-  'animal--9',
-  'animal--10',
-];
+export const quantity = [...Array(11).keys()];
+
+export class Voucher {
+  constructor(name: string, amount: string, points: number, quantity: number) {
+    this.name = name;
+    this.amount = amount;
+    this.points = points;
+    this.quantity = quantity;
+  }
+  name: string;
+  amount: string;
+  points: number;
+  quantity: number;
+}
 
 export class OceanAnimal {
   constructor(image: string, cssClass: string, top: string, left: string) {

@@ -1,0 +1,67 @@
+.confirmation-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+button {
+  display: flex;
+  border-radius: 5%;
+  box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px,
+    5px 5px 0px 0px;
+  font-family: "Source Code Pro", monospace;
+  font-size: medium;
+  cursor: pointer;
+  border: 2px solid;
+  /* padding: 0.5em 0.7em; */
+  position: relative;
+  user-select: none;
+  touch-action: manipulation;
+  background-color: var(--primary-light-color);
+}
+
+button:active {
+  box-shadow: 0px 0px 0px 0px;
+  top: 5px;
+  left: 5px;
+}
+
+button:hover {
+  transform: scale(1.05) rotate(-1deg);
+}
+
+.card-container {
+  /* width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center; */
+  border: solid 3px black;
+  box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px,
+    5px 5px 0px 0px;
+  border-radius: 10px;
+  width: 90vw;
+  height: 90vh;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+}
+
+iframe {
+    background-color: var(--card-header-bg-color);
+    width: 100%;
+    border: solid 3px var(--card-header-bg-color);
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+mat-form-field {
+    width: 80vw;
+}
+
+mat-card-actions {
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 3vh;
+}
+

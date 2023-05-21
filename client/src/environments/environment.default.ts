@@ -7,6 +7,7 @@ export const defaultEnvironment = {
       authDomain: 'kenchukky-41be3.firebaseapp.com',
       messagingSenderId: '544371851050',
       measurementId: 'G-TZR4MRHZWV',
+      vapidKey: "BLlLzC2tKreukLZzneBWd6TiNFAmX2-DmyvyA7UyWVjnKcpyRfJNNOKjF-G2ofphr7mDrnbx3KcPn9bbVXdO5EE"
     },
     production: false  
 }

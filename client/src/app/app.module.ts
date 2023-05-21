@@ -21,6 +21,12 @@ import { QrcodeComponent } from './components/merchant/qrcode.component';
 import { QRCodeModule } from 'angularx-qrcode';
 import { CurrentTransactionsComponent } from './components/merchant/current-transactions.component';
 import { VerifyTxnDialogComponent } from './components/merchant/verify-txn-dialog.component';
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { QrscannerComponent } from './components/qrscanner/qrscanner.component';
+import { AnimationComponent } from './components/animation.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ScannerConfirmationComponent } from './components/customer/scanner-confirmation.component';
+import { VoucherRedemptionComponent } from './components/customer/voucher-redemption.component';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -36,6 +42,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
 @NgModule({
   declarations: [
     AppComponent,
+    AnimationComponent,
     HomeComponent,
     PointsHistoryComponent,
     NavbarComponent,
@@ -44,12 +51,16 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     QrcodeComponent,
     CurrentTransactionsComponent,
     VerifyTxnDialogComponent,
+    QrscannerComponent,
+    ScannerConfirmationComponent,
+    VoucherRedemptionComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
+    HttpClientModule,
     ReactiveFormsModule,
     // Firebase Imports
     FirebaseUIModule.forRoot(firebaseUiAuthConfig),
@@ -59,6 +70,8 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     AngularFireModule.initializeApp(environment.firebase), // Added so that FirebaseUIModule will work.
     // QR Code
     QRCodeModule,
+    // QR Scanner
+    ZXingScannerModule,
   ],
   providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent],

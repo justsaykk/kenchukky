@@ -1,0 +1,48 @@
+<div class="main-container">
+    <app-navbar></app-navbar>
+    <div class="transactions-container">
+        <div class="top-section">
+            <span class="top-section-components">
+                <h4>Points</h4>
+                <h1>{{userPoints}}</h1>
+            </span>
+            <span class="top-section-components">
+                <h4>Amount</h4>
+                <h1>${{userDollars}}</h1>
+            </span>
+        </div>
+        <div class="bottom-section">
+            <mat-card class="card">
+                <mat-card-header class="card-header">
+                    <mat-card-title>Available Vouchers</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div class="vouchers" *ngFor="let voucher of vouchers">
+                        <div class="voucher-information">
+                            <h5>
+                                {{voucher.name}}
+                            </h5>
+                            <h6>
+                                {{voucher.points}} points
+                            </h6>
+                        </div>
+                        <div class="voucher-qty-buttons">
+                            <span>
+                                <button [disabled]="voucher.points > userPoints" (click)="addVoucherQty(voucher)">+</button>
+                            </span>
+                            <span>
+                                <button [disabled]="voucher.quantity < 1" (click)="minusVoucherQty(voucher)">-</button>
+                            </span>
+                        </div>
+                        <div class="voucher-qty">
+                            <h4>{{voucher.quantity}}</h4>
+                        </div>
+                    </div>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button [routerLink]="['/customer/voucher/redemption']">Redeem Vouchers</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </div>
+</div>
