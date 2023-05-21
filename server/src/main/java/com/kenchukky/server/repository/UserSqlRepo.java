@@ -34,6 +34,17 @@ public class UserSqlRepo {
         return Optional.of(user);
     }
 
+    public int getUserPoints(String userId) {
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(GET_USER_POINTS, userId);
+
+        int total = 0;
+        while (rs.next()) {
+            total += rs.getInt("points_received");
+        }
+
+        return total;
+    }
+
     public Optional<List<UserDiscounts>> getUserDiscounts(String userId) {
         SqlRowSet rs = jdbcTemplate.queryForRowSet(GET_USER_DISCOUNTS, userId);
 

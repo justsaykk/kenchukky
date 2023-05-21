@@ -4,6 +4,8 @@ public class SqlQueries {
     
     public static final String GET_USER_DETAILS = "select * from users where user_id = ? ";
 
+    public static final String GET_USER_POINTS = "select points_received from user_orders where user_id = ?";
+
     public static final String GET_USER_DISCOUNTS = "select * from user_discounts where user_id = ?";
 
     public static final String POST_ORDER_DATA = "insert into order_data(user_id, username, time_of_order, quantity, uom, confirmed) value(?, ?, STR_TO_DATE(?, '%d-%m-%Y %H:%i:%s'), ?, ?, ?)";
