@@ -1,7 +1,7 @@
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Component } from '@angular/core';
 import { VerifyTxnDialogComponent } from './verify-txn-dialog.component';
-import { Transaction } from 'src/app/models/models';
+import { Order } from 'src/app/models/models';
 
 @Component({
   selector: 'app-current-transactions',
@@ -10,26 +10,7 @@ import { Transaction } from 'src/app/models/models';
 })
 export class CurrentTransactionsComponent {
   // TODO: fetch list of orders from server on init
-  recentTxns: Transaction[] = [
-    {
-      orderId: 125,
-      customerName: 'kenken',
-      qty: 1,
-      uom: 'container(s)',
-    },
-    {
-      orderId: 124,
-      customerName: 'test',
-      qty: 3,
-      uom: 'cups(s)',
-    },
-    {
-      orderId: 123,
-      customerName: 'ken',
-      qty: 2,
-      uom: 'container(s)',
-    },
-  ];
+  recentOrders: Order[] = [];
 
   constructor(private dialog: MatDialog) {}
 
@@ -40,7 +21,9 @@ export class CurrentTransactionsComponent {
     dialogConfig.autoFocus = false;
     dialogConfig.data = {
       orderId: 126,
+      customerId: '123',
       customerName: 'chukkie',
+      timeOfOrder: '2023-05-22 21:34:00.0',
       qty: 2,
       uom: 'container(s)',
     };
@@ -48,9 +31,9 @@ export class CurrentTransactionsComponent {
     const dialogRef = this.dialog.open(VerifyTxnDialogComponent, dialogConfig);
 
     // TODO: send notification of orders status to customer after cancel or confirmation
-    dialogRef.afterClosed().subscribe((txn) => {
+    dialogRef.afterClosed().subscribe((order) => {
       console.log('The dialog was closed');
-      if (!!txn) this.recentTxns = [txn, ...this.recentTxns];
+      if (!!order) this.recentOrders = [order, ...this.recentOrders];
     });
   }
 }
