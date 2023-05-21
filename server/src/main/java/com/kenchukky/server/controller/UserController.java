@@ -39,7 +39,7 @@ public class UserController {
     private UserService orderSvc;
 
     @Autowired
-    private NotificationService tokenSvc;
+    private NotificationService notificationSvc;
     
     /*
      * GET /api/user
@@ -118,17 +118,19 @@ public class UserController {
         boolean orderCreated;
         try {
             orderCreated = userSqlRepo.postUserOrderData(order);
+            String merchantToken = this.notificationSvc.getToken(merchantId);
 
             // also update user_orders 
             // - use merchant id for merchant name + calculate num of points by retrieving points per uom
 
-            if (!orderCreated) {
+            if (!orderCreated || merchantId == merchantToken) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Json.createObjectBuilder()
                             .add("message", "There was a problem creating the order")
                             .build().toString());
             }
-
+            
+            this.notificationSvc.sendNotification(merchantToken);
             return ResponseEntity.status(HttpStatus.CREATED).body(Json.createObjectBuilder()
                                 .add("message", "Order created")
                                 .build().toString());
@@ -212,7 +214,7 @@ public class UserController {
     public ResponseEntity<String> postToken(
         @RequestBody NotificationToken token
     ) {
-        this.tokenSvc.saveToken(token);
+        this.notificationSvc.saveToken(token);
         return new ResponseEntity<String>(HttpStatus.OK);
     }
 }

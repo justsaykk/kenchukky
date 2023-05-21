@@ -37,7 +37,7 @@ public class NotificationService {
         return tokenOptional.get();
     }
 
-    public void sendNotification(NotificationToken token) {
+    public void sendNotification(String token) {
         RestTemplate http = new RestTemplate();
 
         JsonObjectBuilder notificationBody = Json.createObjectBuilder()
@@ -46,7 +46,7 @@ public class NotificationService {
         
         JsonObject payload = Json.createObjectBuilder()
             .add("notification", notificationBody)
-            .add("to", "%s".formatted(token.getToken()))
+            .add("to", "%s".formatted(token))
             .build();
 
         HttpHeaders headers = new HttpHeaders();
