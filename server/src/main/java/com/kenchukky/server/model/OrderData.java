@@ -10,7 +10,7 @@ public class OrderData {
     private String userId;
     private String username;
     private String timeOfOrder;
-    private int quantity;
+    private int qty;
     private String uom;
     private boolean orderConfirmed;
 
@@ -38,11 +38,11 @@ public class OrderData {
     public void setTimeOfOrder(String timeOfOrder) {
         this.timeOfOrder = timeOfOrder;
     }
-    public int getQuantity() {
-        return quantity;
+    public int getQty() {
+        return qty;
     }
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setQty(int quantity) {
+        this.qty = quantity;
     }
     public String getUom() {
         return uom;
@@ -63,7 +63,7 @@ public class OrderData {
         od.setUserId(rs.getString("user_id"));
         od.setUsername(rs.getString("username"));
         od.setTimeOfOrder(rs.getTimestamp("time_of_order").toString());
-        od.setQuantity(rs.getInt("quantity"));
+        od.setQty(rs.getInt("quantity"));
         od.setUom(rs.getString("uom"));
         od.setOrderConfirmed(rs.getBoolean("confirmed"));
 
@@ -76,7 +76,7 @@ public class OrderData {
                 .add("userId", getUserId())
                 .add("username", getUsername())
                 .add("timeOfOrder", getTimeOfOrder())
-                .add("qty", getQuantity())
+                .add("qty", getQty())
                 .add("uom", getUom())
                 .add("orderConfirmed", isOrderConfirmed())
                 .build();
