@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ZXingScannerComponent } from '@zxing/ngx-scanner';
 import { NotificationService } from 'src/app/services/notification.service';
+import { Router } from '@angular/router';
+import { ScannerService } from 'src/app/services/scanner.service';
 
 @Component({
   selector: 'app-qrscanner',
@@ -16,7 +18,16 @@ export class QrscannerComponent implements OnInit {
   availableDevices!: MediaDeviceInfo[];
   currentDevice!: MediaDeviceInfo;
 
-  constructor(private notificationSvc: NotificationService) { }
+  // <--------------------- USER INFORMATION --------------------->
+  // testCustomerUsername = "jack";
+  // testCustomerId = "abc123";
+  // orderId!: string; 
+
+  constructor(
+    private notificationService: NotificationService,
+    private scannerService: ScannerService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     // Generate token when camera is initiated
@@ -35,8 +46,10 @@ export class QrscannerComponent implements OnInit {
   }
 
   handleQrCodeResult(resultString: string) {
-    console.debug('Result: ', resultString);
     this.qrResultString = resultString;
+    this.router.navigate(['/customer/qrscanner/confirmation']);
+    this.scannerService.merchantId = resultString; 
+    console.info('Result: ', resultString);
+    console.info('merchantId in service >>> ', this.scannerService.merchantId);
   }
 }
-

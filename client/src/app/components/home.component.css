@@ -1,6 +1,8 @@
 .home-container {
   display: flex;
+  overflow: hidden;
   flex-direction: column;
+  max-width: 1000px;
   width: 100%;
   height: 100%;
   padding: 0;
@@ -113,15 +115,10 @@ mat-card-actions {
   z-index: 100;
 }
 
-.mdc-checkbox__background {
-  /* TODO: check why not working */
-  background-color: var(--primary-light-color) !important;
-}
-
 .progress-bar-container {
   transform: translateY(-21px);
   z-index: 1;
-}
+} 
 
 .camera-button {
   height: 40px;

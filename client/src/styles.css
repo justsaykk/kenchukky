@@ -3,6 +3,7 @@
   --primary-dark-color: #354259;
   --primary-light-color: #fefcf3;
   --background-color: #354259;
+  --card-header-bg-color: #203159;
 }
 
 html,
@@ -11,10 +12,11 @@ body {
 }
 
 body {
-  margin: 0;
   color: var(--primary-text-color);
   background-color: var(--background-color);
   font-family: "Source Code Pro", monospace;
+  display: flex;
+  justify-content: center;
 }
 
 a {

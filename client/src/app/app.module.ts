@@ -23,6 +23,8 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { QrscannerComponent } from './components/qrscanner/qrscanner.component';
 import { AnimationComponent } from './components/animation.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ScannerConfirmationComponent } from './components/customer/scanner-confirmation.component';
+import { VoucherRedemptionComponent } from './components/customer/voucher-redemption.component';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -46,6 +48,8 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     SignUpComponent,
     QrcodeComponent,
     QrscannerComponent,
+    ScannerConfirmationComponent, 
+    VoucherRedemptionComponent,
   ],
   imports: [
     BrowserModule,
