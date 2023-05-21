@@ -11,6 +11,7 @@ import com.kenchukky.server.exception.UserException;
 import com.kenchukky.server.model.OrderData;
 import com.kenchukky.server.model.User;
 import com.kenchukky.server.model.UserDiscounts;
+import com.kenchukky.server.model.UserOrders;
 import com.kenchukky.server.repository.UserSqlRepo;
 
 @Service
@@ -31,21 +32,12 @@ public class UserService {
     public boolean postUserOrderData(OrderData order) {
         return userSqlRepo.postUserOrderData(order);
     }
-    
-    // update user_orders
-    public void postUserOrders() {
-
-    }
-
-    public void getOrCreateMerchant() {
-
-    }
 
     public Optional<OrderData> getUserOrder(String orderId) {
         return userSqlRepo.getUserOrder(orderId);
     }
 
-    public Optional<List<OrderData>> getUserRecentOrders(String userId) {
+    public Optional<List<UserOrders>> getUserRecentOrders(String userId) {
         return userSqlRepo.getUserRecentOrders(userId);
     }
 }

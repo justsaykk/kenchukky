@@ -8,6 +8,7 @@ import jakarta.json.JsonObject;
 public class Merchant {
     private String merchantId;
     private String merchantName;
+    
     public String getMerchantId() {
         return merchantId;
     }
