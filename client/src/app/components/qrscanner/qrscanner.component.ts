@@ -48,7 +48,7 @@ export class QrscannerComponent implements OnInit {
   handleQrCodeResult(resultString: string) {
     this.qrResultString = resultString;
     this.router.navigate(['/customer/qrscanner/confirmation']);
-    this.scannerService.merchantId = resultString; 
+    this.scannerService.setMerchantId(resultString);
     console.info('Result: ', resultString);
     console.info('merchantId in service >>> ', this.scannerService.merchantId);
   }
