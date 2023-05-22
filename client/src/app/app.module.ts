@@ -27,6 +27,8 @@ import { AnimationComponent } from './components/animation.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ScannerConfirmationComponent } from './components/customer/scanner-confirmation.component';
 import { VoucherRedemptionComponent } from './components/customer/voucher-redemption.component';
+import { NotificationService } from './services/notification.service';
+import { DatePipe } from '@angular/common';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -73,7 +75,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     // QR Scanner
     ZXingScannerModule,
   ],
-  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
+  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }, NotificationService, DatePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
