@@ -60,3 +60,11 @@ export interface Order {
   qty: number;
   uom: string;
 }
+
+export interface NotificationData {
+  senderToken: string | null,
+  orderId: string | null,
+  customerName: string | null,
+  qty: number | null,
+  uom: string | null
+}

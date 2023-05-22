@@ -127,6 +127,7 @@ public class UserController {
             // insert into order_data table - TRANSACTIONAL
             orderCreated = userService.postUserOrderData(order);
             String merchantToken = this.notificationSvc.getToken(merchantId);
+            String senderToken = this.notificationSvc.getToken(order.getUserId());
 
             if (!orderCreated || merchantId == merchantToken) {
                 // if inserting into order_data table fails
@@ -136,8 +137,7 @@ public class UserController {
                             .build().toString());
 
             }
-            
-            this.notificationSvc.sendNotification(merchantToken);
+            this.notificationSvc.sendNotificationToMerchant(merchantId, senderToken, order);
 
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
