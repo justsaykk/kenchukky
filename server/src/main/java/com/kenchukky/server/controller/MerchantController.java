@@ -19,6 +19,7 @@ import com.kenchukky.server.model.Merchant;
 import com.kenchukky.server.model.MerchantOrders;
 import com.kenchukky.server.model.OrderData;
 import com.kenchukky.server.service.MerchantService;
+import com.kenchukky.server.service.NotificationService;
 
 import jakarta.json.Json;
 import jakarta.json.JsonArrayBuilder;
@@ -33,6 +34,9 @@ public class MerchantController {
 
     @Autowired
     private MerchantService merchantService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     /*
      * GET /api/merchant
@@ -155,7 +159,8 @@ public class MerchantController {
                             .add("detailed_message", e.getMessage())
                             .build().toString());
         }
-
+        String userToken = this.notificationService.getToken(od.getUserId());
+        this.notificationService.sendNotificationToUser(userToken);
         return ResponseEntity.ok().body(Json.createObjectBuilder()
                                         .add("orderId", orderId)
                                         .add("isConfirmed", isConfirmed)
