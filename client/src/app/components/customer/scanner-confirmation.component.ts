@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { filter, firstValueFrom, take } from 'rxjs';
 import { quantity, uom } from 'src/app/models/models';
+import { BackendService } from 'src/app/services/backend.service';
+import { ScannerService } from 'src/app/services/scanner.service'
 
 @Component({
   selector: 'app-scanner-confirmation',
@@ -17,6 +20,8 @@ export class ScannerConfirmationComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private backendSvc: BackendService,
+    private scannerSvc: ScannerService,
   ) {}
   
   ngOnInit(): void {
@@ -48,8 +53,11 @@ export class ScannerConfirmationComponent implements OnInit {
     });
   }
 
-  submit() {
+  async submit() {
     // post to back end
+    let merchantId: string = await firstValueFrom(
+      this.scannerSvc.getMerchantId().pipe(take(1))
+      ) 
+    this.backendSvc.postCompletedForm(merchantId, this.form.value.quantity, this.form.value.uom)
   }
-
 }
