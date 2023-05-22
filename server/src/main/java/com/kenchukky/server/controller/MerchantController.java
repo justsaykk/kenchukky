@@ -9,8 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,18 +22,21 @@ import com.kenchukky.server.service.MerchantService;
 
 import jakarta.json.Json;
 import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObject;
 
 @RestController
 @RequestMapping("/api/merchant")
 @CrossOrigin()
 public class MerchantController {
 
+    // https://kenchukky-server.up.railway.app/
+
     @Autowired
     private MerchantService merchantService;
 
     /*
      * GET /api/merchant
-     * header - "merchantId"
+     * query - "merchantId"
      * response - {
      *  merchantId: string,
      *  merchantName: string
@@ -40,7 +44,7 @@ public class MerchantController {
      */
     @GetMapping
     @ResponseBody
-    public ResponseEntity<String> getMerchantData(@RequestHeader("merchantId") String merchantId) {
+    public ResponseEntity<String> getMerchantData(@RequestParam("merchantId") String merchantId) {
         
         Optional<Merchant> mOpt = merchantService.getMerchantData(merchantId);
 
@@ -59,7 +63,7 @@ public class MerchantController {
 
     /*
      * GET /api/merchant/order
-     * header - "orderId"
+     * query - "orderId"
      * response - {
      *  orderId: string,
         customerId: string,
@@ -71,7 +75,7 @@ public class MerchantController {
      */
     @GetMapping("/order")
     @ResponseBody
-    public ResponseEntity<String> getOrderData(@RequestHeader("orderId") String orderId) {
+    public ResponseEntity<String> getOrderData(@RequestParam("orderId") String orderId) {
         Optional<OrderData> odOpt = merchantService.getOrderData(orderId);
 
         if (odOpt.isEmpty()) {
@@ -93,7 +97,6 @@ public class MerchantController {
 
     /*
      * POST - /api/merchant/order
-     * header - "orderId (String)", "isConfirmed (boolean)"
      * body - {
      *  orderId: string
      *  merchantId: string
@@ -106,9 +109,10 @@ public class MerchantController {
      */
     @PostMapping("/order")
     @ResponseBody
-    public ResponseEntity<String> confirmOrCancelOrder(@RequestHeader("orderId") String orderId,
-                                     @RequestHeader("merchantId") String merchantId,
-                                     @RequestHeader("isConfirmed") boolean isConfirmed) {
+    public ResponseEntity<String> confirmOrCancelOrder(@RequestBody JsonObject body) {
+        String orderId = body.getString("orderId");
+        String merchantId = body.getString("merchantId");
+        boolean isConfirmed = body.getBoolean("isConfirmed");
         
         // confirm order in order_data table
         boolean updated = merchantService.confirmOrCancelOrder(orderId, isConfirmed);
@@ -118,6 +122,14 @@ public class MerchantController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .body(Json.createObjectBuilder().add("message", "There was a problem confirming order status")
                         .build().toString());
+        }
+
+        if (!isConfirmed) {
+            // do nothing until order is confirmed
+            return ResponseEntity.ok().body(Json.createObjectBuilder()
+                                            .add("orderId", orderId)
+                                            .add("isConfirmed", isConfirmed)
+                                            .build().toString());
         }
         
         // insert into user_orders / merchant_orders table once confirmed
@@ -152,7 +164,7 @@ public class MerchantController {
 
     /*
      * GET - /api/merchant/orders
-     * header - "merchantId"
+     * query - "merchantId"
      * response - [
             {
                 orderId: '124',
@@ -174,7 +186,7 @@ public class MerchantController {
      */
     @GetMapping("/orders")
     @ResponseBody
-    public ResponseEntity<String> getMerchantRecentOrders(@RequestHeader("merchantId") String merchantId) {
+    public ResponseEntity<String> getMerchantRecentOrders(@RequestParam("merchantId") String merchantId) {
         
         Optional<List<MerchantOrders>> moListOpt = merchantService.getMerchantRecentOrders(merchantId);
 
