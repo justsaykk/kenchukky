@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,6 +33,8 @@ import jakarta.json.JsonArrayBuilder;
 @CrossOrigin()
 public class UserController {
 
+    // https://kenchukky-server.up.railway.app/
+
     @Autowired
     private UserSqlRepo userSqlRepo;
 
@@ -44,11 +46,11 @@ public class UserController {
     
     /*
      * GET /api/user
-     * header - "userId"
+     * query - "userId"
      */
     @GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<String> getUserByUID(@RequestHeader("userId") String userId) {
+    public ResponseEntity<String> getUserByUID(@RequestParam("userId") String userId) {
 
         // retrieve points from user_orders (TO DO: update user table)
         int points = userService.getUserPoints(userId);
@@ -70,7 +72,7 @@ public class UserController {
 
     /*
      * GET /api/user/discounts
-     * header - "userId"
+     * query - "userId"
      * response - {
      *  discountName: string,
         discountAmount: number,
@@ -81,7 +83,7 @@ public class UserController {
      */
     @GetMapping(path="/discounts", produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<String> getUserDiscountsByUID(@RequestHeader("userId") String userId) {
+    public ResponseEntity<String> getUserDiscountsByUID(@RequestParam("userId") String userId) {
 
         Optional<List<UserDiscounts>> udOpt = userService.getUserDiscounts(userId);
 
@@ -102,7 +104,7 @@ public class UserController {
 
     /*
      * POST /api/user/order
-     * header - "merchantId"
+     * query - "merchantId"
      * body - {
      *  userId: string,
         username: string,
@@ -117,7 +119,7 @@ public class UserController {
      */
     @PostMapping(path="/order", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<String> postUserOrderData(@RequestHeader("merchantId") String merchantId,
+    public ResponseEntity<String> postUserOrderData(@RequestParam("merchantId") String merchantId,
                                                 @RequestBody OrderData order) {
         
         boolean orderCreated;
@@ -152,7 +154,7 @@ public class UserController {
 
     /*
      * GET /api/user/order
-     * header - "orderId"
+     * query - "orderId"
      * response - {
      *  orderId: string,
         orderConfirmed: boolean
@@ -160,7 +162,7 @@ public class UserController {
      */
     @GetMapping(path="/order", produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<String> getUserOrder(@RequestHeader("orderId") String orderId) {
+    public ResponseEntity<String> getUserOrder(@RequestParam("orderId") String orderId) {
 
         Optional<OrderData> odOpt = userSqlRepo.getUserOrder(orderId);
 
@@ -180,7 +182,7 @@ public class UserController {
 
     /*
      * GET /api/user/orders
-     * header - "userId"
+     * query - "userId"
      * response - {
      *  orderId: '124',
         merchantId: '123',
@@ -194,7 +196,7 @@ public class UserController {
      */
     @GetMapping(path="/orders")
     @ResponseBody
-    public ResponseEntity<String> getUserRecentOrders(@RequestHeader("userId") String userId) {
+    public ResponseEntity<String> getUserRecentOrders(@RequestParam("userId") String userId) {
 
         Optional<List<UserOrders>> odListOpt = userSqlRepo.getUserRecentOrders(userId);
 
