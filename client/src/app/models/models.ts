@@ -52,9 +52,11 @@ export interface Merchant {
   merchantName: string;
 }
 
-export interface Transaction {
-  orderId: number;
+export interface Order {
+  orderId: string;
+  customerId: string;
   customerName: string;
+  timeOfOrder: string;
   qty: number;
   uom: string;
 }
