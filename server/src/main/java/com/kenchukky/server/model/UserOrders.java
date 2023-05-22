@@ -13,7 +13,7 @@ public class UserOrders {
     private String timeOfOrder;
     private String transactionDate;
     private int pointsReceived;
-    private int quantity;
+    private int qty;
     private String uom;
 
     public String getOrderId() {
@@ -72,12 +72,12 @@ public class UserOrders {
         this.pointsReceived = pointsReceived;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public int getQty() {
+        return qty;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setQty(int quantity) {
+        this.qty = quantity;
     }
 
     public String getUom() {
@@ -97,7 +97,7 @@ public class UserOrders {
         ut.setTimeOfOrder(rs.getTimestamp("time_of_order").toString());
         ut.setTransactionDate(rs.getTimestamp("transaction_date").toString());
         ut.setPointsReceived(rs.getInt("points_received"));
-        ut.setQuantity(rs.getInt("quantity"));
+        ut.setQty(rs.getInt("quantity"));
         ut.setUom(rs.getString("uom"));
 
         return ut;
@@ -112,7 +112,7 @@ public class UserOrders {
                 .add("timeOfOrder", getTimeOfOrder())
                 .add("transactionDate", getTransactionDate())
                 .add("pointsReceived", getPointsReceived())
-                .add("quantity", getQuantity())
+                .add("quantity", getQty())
                 .add("uom", getUom())
                 .build();
     }

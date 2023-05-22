@@ -31,10 +31,12 @@ mat-card {
   background-color: var(--primary-light-color);
 }
 
-p,
-mat-card-title,
-mat-card-subtitle {
+mat-card-title {
     font-family: "Source Code Pro", monospace;
+}
+
+mat-card-title {
+  align-self: center;
 }
 
 mat-card-actions {

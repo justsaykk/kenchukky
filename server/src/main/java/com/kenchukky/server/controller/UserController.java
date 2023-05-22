@@ -20,6 +20,7 @@ import com.kenchukky.server.model.NotificationToken;
 import com.kenchukky.server.model.OrderData;
 import com.kenchukky.server.model.User;
 import com.kenchukky.server.model.UserDiscounts;
+import com.kenchukky.server.model.UserOrders;
 import com.kenchukky.server.repository.UserSqlRepo;
 import com.kenchukky.server.service.NotificationService;
 import com.kenchukky.server.service.UserService;
@@ -36,7 +37,7 @@ public class UserController {
     private UserSqlRepo userSqlRepo;
 
     @Autowired
-    private UserService orderSvc;
+    private UserService userService;
 
     @Autowired
     private NotificationService notificationSvc;
@@ -49,6 +50,9 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<String> getUserByUID(@RequestHeader("userId") String userId) {
 
+        // retrieve points from user_orders (TO DO: update user table)
+        int points = userService.getUserPoints(userId);
+
         Optional<User> uOpt = userSqlRepo.getUserDetails(userId);
 
         if (uOpt.isEmpty()) {
@@ -58,7 +62,10 @@ public class UserController {
                             .build().toString());
         }
 
-        return ResponseEntity.ok().body(uOpt.get().toJSON().toString());
+        User user = uOpt.get();
+        user.setTotalPoints(points);
+
+        return ResponseEntity.ok().body(user.toJSON().toString());
     }
 
     /*
@@ -67,7 +74,7 @@ public class UserController {
      * response - {
      *  discountName: string,
         discountAmount: number,
-        discountCreatedAt: datetime in string format (DD-MM-YYYY HH:mm),
+        discountCreatedAt: datetime in string format (DD-MM-YYYY HH:mm:ss),
         discountIsRedeemed: boolean,
         discountRedeemedAt: date,
      * }
@@ -76,7 +83,7 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<String> getUserDiscountsByUID(@RequestHeader("userId") String userId) {
 
-        Optional<List<UserDiscounts>> udOpt = userSqlRepo.getUserDiscounts(userId);
+        Optional<List<UserDiscounts>> udOpt = userService.getUserDiscounts(userId);
 
         if (udOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -93,15 +100,13 @@ public class UserController {
         return ResponseEntity.ok().body(jab.build().toString());
     }
 
-    // to test
     /*
      * POST /api/user/order
      * header - "merchantId"
      * body - {
-     *  orderId: string,
-        userId: string,
+     *  userId: string,
         username: string,
-        timeOfOrder: datetime in string format (DD-MM-YYYY HH:mm),
+        timeOfOrder: datetime in string format (DD-MM-YYYY HH:mm:ss),
         qty: number,
         uom: string
      * }
@@ -112,28 +117,25 @@ public class UserController {
      */
     @PostMapping(path="/order", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<String> postUserOrder(@RequestHeader("merchantId") String merchantId,
+    public ResponseEntity<String> postUserOrderData(@RequestHeader("merchantId") String merchantId,
                                                 @RequestBody OrderData order) {
         
         boolean orderCreated;
         try {
-            orderCreated = userSqlRepo.postUserOrderData(order);
+            // insert into order_data table - TRANSACTIONAL
+            orderCreated = userService.postUserOrderData(order);
             String merchantToken = this.notificationSvc.getToken(merchantId);
 
-            // also update user_orders 
-            // - use merchant id for merchant name + calculate num of points by retrieving points per uom
-
             if (!orderCreated || merchantId == merchantToken) {
+                // if inserting into order_data table fails
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Json.createObjectBuilder()
                             .add("message", "There was a problem creating the order")
                             .build().toString());
+
             }
             
             this.notificationSvc.sendNotification(merchantToken);
-            return ResponseEntity.status(HttpStatus.CREATED).body(Json.createObjectBuilder()
-                                .add("message", "Order created")
-                                .build().toString());
 
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -142,9 +144,12 @@ public class UserController {
                             .add("detailed_message", e.getMessage())
                             .build().toString());
         }
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(Json.createObjectBuilder()
+                                .add("message", "Order created")
+                                .build().toString());
     }
 
-    // to test
     /*
      * GET /api/user/order
      * header - "orderId"
@@ -173,7 +178,6 @@ public class UserController {
                                     .build().toString());
     }
 
-    // to test
     /*
      * GET /api/user/orders
      * header - "userId"
@@ -181,8 +185,8 @@ public class UserController {
      *  orderId: '124',
         merchantId: '123',
         merchantName: 'kentucky fried chicken',
-        timeOfOrder: '21-05-2023 20:12'
-        transactionDate: datetime in string format (DD-MM-YYYY HH:mm),
+        timeOfOrder: '21-05-2023 20:12:00'
+        transactionDate: datetime in string format (DD-MM-YYYY HH:mm:00),
         pointsRecevied: number,
         qty: 1,
         uom: 'container'
@@ -192,7 +196,7 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<String> getUserRecentOrders(@RequestHeader("userId") String userId) {
 
-        Optional<List<OrderData>> odListOpt = userSqlRepo.getUserRecentOrders(userId);
+        Optional<List<UserOrders>> odListOpt = userSqlRepo.getUserRecentOrders(userId);
 
         if (odListOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

@@ -34,6 +34,17 @@ public class UserSqlRepo {
         return Optional.of(user);
     }
 
+    public int getUserPoints(String userId) {
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(GET_USER_POINTS, userId);
+
+        int total = 0;
+        while (rs.next()) {
+            total += rs.getInt("points_received");
+        }
+
+        return total;
+    }
+
     public Optional<List<UserDiscounts>> getUserDiscounts(String userId) {
         SqlRowSet rs = jdbcTemplate.queryForRowSet(GET_USER_DISCOUNTS, userId);
 
@@ -48,18 +59,10 @@ public class UserSqlRepo {
     }
 
     public boolean postUserOrderData(OrderData order) {
-        return jdbcTemplate.update(POST_USER_ORDER, order.getOrderId(),
+        return jdbcTemplate.update(POST_ORDER_DATA,
                             order.getUserId(), order.getUsername(),
-                            order.getTimeOfOrder(), order.getQuantity(),
-                            order.getUom(), true) > 0;
-    }
-
-    public void postUserOrders() {
-
-    }
-
-    public void getOrCreateMerchant() {
-
+                            order.getTimeOfOrder(), order.getQty(),
+                            order.getUom(), false) > 0;
     }
 
     public Optional<OrderData> getUserOrder(String orderId) {
@@ -74,17 +77,17 @@ public class UserSqlRepo {
         return Optional.of(od);
     }
 
-    public Optional<List<OrderData>> getUserRecentOrders(String userId) {
+    public Optional<List<UserOrders>> getUserRecentOrders(String userId) {
         SqlRowSet rs = jdbcTemplate.queryForRowSet(GET_USER_10_LATEST_ORDERS, userId);
 
-        List<OrderData> odList = new LinkedList<>();
+        List<UserOrders> uoList = new LinkedList<>();
         while (rs.next()) {
-            OrderData od = OrderData.create(rs);
-            odList.add(od);
+            UserOrders uo = UserOrders.create(rs);
+            uoList.add(uo);
         }
 
-        if (odList.size() == 0) return Optional.empty();
+        if (uoList.size() == 0) return Optional.empty();
 
-        return Optional.of(odList);
+        return Optional.of(uoList);
     }
 }
