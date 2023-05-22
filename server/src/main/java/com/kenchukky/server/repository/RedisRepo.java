@@ -9,6 +9,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
 
+import com.kenchukky.server.model.NotificationToken;
+
 @Repository
 public class RedisRepo {
     
@@ -16,10 +18,9 @@ public class RedisRepo {
     @Qualifier("kenchukky")   // must match bean name in RedisConfig
     private RedisTemplate<String, String> redisTemplate;
 
-    public void postToken(String userId, String token) {
+    public void postToken(NotificationToken token) {
         ValueOperations<String, String> ops = redisTemplate.opsForValue();
-
-        ops.set(userId, token, Duration.ofSeconds(1800));
+        ops.set(token.getUserId(), token.getToken(), Duration.ofSeconds(1800));
     }
 
     public Optional<String> getToken(String userId) {
