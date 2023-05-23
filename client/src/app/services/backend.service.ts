@@ -95,7 +95,7 @@ export class BackendService {
     return uuidv4().substring(0, 8);
   }
 
-  postNewUser (userData: any) {
+  async postNewUser (userData: any) {
     let url = this.BACKEND + "/api/user"
     let headers = new HttpHeaders()
       .set("Content-Type", "application/json")
@@ -107,8 +107,9 @@ export class BackendService {
       lastName: userData.lastName,
       totalPoints: 0,
     }
-    
-    this.http.post(url, body, {headers})
+    let resp = await firstValueFrom(this.http.post(url, body, {headers}))
+    this.getServerUser(userData.uid)
+    return resp
   }
 
 }
