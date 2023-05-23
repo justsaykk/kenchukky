@@ -1,7 +1,6 @@
 .signup-page-container {
     display: flex;
     flex-direction: column;
-    padding-top: 20%;
 }
 
 .form-container {

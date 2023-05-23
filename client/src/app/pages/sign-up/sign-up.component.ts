@@ -6,6 +6,7 @@ import { Location } from '@angular/common';
 import { FirebaseAuthenticationService } from 'src/app/services/firebase-authentication.service';
 import { FirebaseFirestoreService } from 'src/app/services/firebase-firestore.service';
 import { Router } from '@angular/router';
+import { BackendService } from 'src/app/services/backend.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -23,6 +24,7 @@ export class SignUpComponent implements OnDestroy, OnInit{
     private firestoreSvc: FirebaseFirestoreService,
     private router: Router,
     private location: Location,
+    private backendSvc: BackendService,
   ) {
     this.authState$ = this.authSvc.authState$.subscribe((state: User | null) => this.authState = state);
   }
@@ -60,6 +62,7 @@ export class SignUpComponent implements OnDestroy, OnInit{
       lastName: this.signUpForm.value.lastName
     }
     await this.firestoreSvc.createNewUser(userData);
+    this.backendSvc.postNewUser(userData);
     this.router.navigateByUrl("/customer/home")
   }
 

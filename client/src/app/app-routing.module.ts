@@ -14,7 +14,7 @@ import { MerchantSignupComponent } from './pages/merchant-signup/merchant-signup
 import { authGuard, isMerchant, isUser } from './services/auth.guard';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
+  { path: '', component: LoginComponent },
   { path: 'signup', component: SignUpComponent },
   { path: 'animation', component: AnimationComponent },
   { path: 'merchant/signup', component: MerchantSignupComponent},

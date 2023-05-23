@@ -6,6 +6,7 @@ import { BehaviorSubject, Observable, filter, firstValueFrom, map, take } from '
 import { DatePipe } from '@angular/common';
 import { v4 as uuidv4 } from 'uuid';
 import { User } from '@angular/fire/auth';
+import { UserDataWithRole } from '../models/models';
 import { ServerUser } from '../models/models';
 
 type OrderData = {
@@ -96,6 +97,22 @@ export class BackendService {
 
   private generateUUID() {
     return uuidv4().substring(0, 8);
+  }
+
+  postNewUser (userData: any) {
+    let url = this.BACKEND + "/api/user"
+    let headers = new HttpHeaders()
+      .set("Content-Type", "application/json")
+    
+    let body = {
+      userId: userData.uid,
+      username: userData.email,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      totalPoints: 0,
+    }
+    
+    this.http.post(url, body, {headers})
   }
 
 }

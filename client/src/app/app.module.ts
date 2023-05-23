@@ -30,6 +30,7 @@ import { VoucherRedemptionComponent } from './components/customer/voucher-redemp
 import { NotificationService } from './services/notification.service';
 import { DatePipe } from '@angular/common';
 import { MerchantSignupComponent } from './pages/merchant-signup/merchant-signup.component';
+import { NgxPullToRefreshModule } from 'ngx-pull-to-refresh';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -76,6 +77,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     QRCodeModule,
     // QR Scanner
     ZXingScannerModule,
+    NgxPullToRefreshModule,
   ],
   providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }, NotificationService, DatePipe],
   bootstrap: [AppComponent],

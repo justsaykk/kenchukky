@@ -1,8 +1,8 @@
 <div class="signup-page-container">
-    <div class="form-container">
+    <div class="form-container" *ngIf="!authState">
         <mat-card class="card">
             <mat-card-content>
-                <form class="form-input-container" [formGroup]="signUpForm" (ngSubmit)="signUp()" *ngIf="!authState">
+                <form class="form-input-container" [formGroup]="signUpForm" (ngSubmit)="signUp()">
                     <table>
                         <tr>
                             <td>
