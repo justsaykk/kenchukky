@@ -43,7 +43,7 @@ export class PointsHistoryComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.userPoints = this.loggedInUser?.points!; 
+    this.userPoints = this.loggedInUser?.totalPoints!; 
     this.userDollars = (this.userPoints/300).toFixed(2);
 
   }
