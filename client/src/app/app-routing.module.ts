@@ -10,6 +10,7 @@ import { AnimationComponent } from './components/animation.component';
 import { QrscannerComponent } from './components/qrscanner/qrscanner.component';
 import { ScannerConfirmationComponent } from './components/customer/scanner-confirmation.component';
 import { VoucherRedemptionComponent } from './components/customer/voucher-redemption.component';
+import { MerchantSignupComponent } from './pages/merchant-signup/merchant-signup.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -28,6 +29,7 @@ const routes: Routes = [
   },
   { path: 'merchant/home', component: CurrentTransactionsComponent },
   { path: 'merchant/qr', component: QrcodeComponent },
+  { path: 'merchant/signup', component: MerchantSignupComponent},
   { path: '**', redirectTo: '/', pathMatch: 'full' },
 ];
 

@@ -35,4 +35,12 @@ export class FirebaseFirestoreService {
       }
     )
   }
+
+  async createNewMerchant(userData: UserData) {
+    return await addDoc(this.userProfileReference, {
+      ...userData,
+      role: "merchant"
+      }
+    )
+  }
 }
