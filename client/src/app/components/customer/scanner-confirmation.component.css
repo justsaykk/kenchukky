@@ -31,37 +31,33 @@ button:hover {
 }
 
 .card-container {
-  /* width: 100%;
-  height: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center; */
   border: solid 3px black;
   box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px,
     5px 5px 0px 0px;
   border-radius: 10px;
   width: 90vw;
+  max-width: 400px;
   height: 90vh;
+  max-height: 600px;
   align-self: center;
   display: flex;
   flex-direction: column;
 }
 
 iframe {
-    background-color: var(--card-header-bg-color);
-    width: 100%;
-    border: solid 3px var(--card-header-bg-color);
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
+  background-color: var(--card-header-bg-color);
+  width: 100%;
+  border: solid 3px var(--card-header-bg-color);
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
 }
 
 mat-form-field {
-    width: 80vw;
+  display: flex;
 }
 
 mat-card-actions {
-    display: flex;
-    justify-content: space-evenly;
-    margin-bottom: 3vh;
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 3vh;
 }
-
