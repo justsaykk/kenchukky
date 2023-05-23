@@ -1,29 +1,41 @@
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { VerifyTxnDialogComponent } from './verify-txn-dialog.component';
 import { Order } from 'src/app/models/models';
 import { MerchantService } from 'src/app/services/merchant.service';
+import { Subscription } from 'rxjs';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-current-transactions',
   templateUrl: './current-transactions.component.html',
   styleUrls: ['./current-transactions.component.css'],
 })
-export class CurrentTransactionsComponent implements OnInit {
+export class CurrentTransactionsComponent implements OnInit, OnDestroy {
   // TODO: fetch list of orders from server on init
   merchantId: string = 'abcdef';
   recentOrders: Order[] = [];
+  notification$!: Subscription;
+  notification!: any
 
   constructor(
     private dialog: MatDialog,
-    private merchantService: MerchantService
-  ) {}
+    private merchantService: MerchantService,
+    private notificationSvc: NotificationService
+  ) {
+    this.notification$ = this.notificationSvc.getMessage().subscribe((m: string) => this.notification = m)
+  }
 
   ngOnInit(): void {
+    this.notificationSvc.fbGenerateToken();
     this.merchantService
       .getRecentOrders(this.merchantId)
       .then((res) => (this.recentOrders = res))
       .catch((err) => console.error(err));
+  }
+
+  ngOnDestroy(): void {
+      this.notification$.unsubscribe();
   }
 
   // TODO: display popup when receive notification from firebase of new incoming order

@@ -4,6 +4,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
 
 public class OrderData {
     private String orderId;
@@ -80,6 +81,17 @@ public class OrderData {
                 .add("uom", getUom())
                 .add("orderConfirmed", isOrderConfirmed())
                 .build();
+    }
+
+    public JsonObjectBuilder toJOB() {
+        return Json.createObjectBuilder()
+                .add("orderId", getOrderId())
+                .add("userId", getUserId())
+                .add("username", getUsername())
+                .add("timeOfOrder", getTimeOfOrder())
+                .add("qty", getQty())
+                .add("uom", getUom())
+                .add("orderConfirmed", isOrderConfirmed());
     }
     
 

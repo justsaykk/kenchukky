@@ -29,6 +29,7 @@ import { ScannerConfirmationComponent } from './components/customer/scanner-conf
 import { VoucherRedemptionComponent } from './components/customer/voucher-redemption.component';
 import { NotificationService } from './services/notification.service';
 import { DatePipe } from '@angular/common';
+import { MerchantSignupComponent } from './pages/merchant-signup/merchant-signup.component';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -56,6 +57,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     QrscannerComponent,
     ScannerConfirmationComponent,
     VoucherRedemptionComponent,
+    MerchantSignupComponent,
   ],
   imports: [
     BrowserModule,
