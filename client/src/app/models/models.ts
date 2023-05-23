@@ -70,9 +70,9 @@ export interface NotificationData {
 }
 
 export interface UserDataWithRole {
-  uid: string,
-  email: string,
-  firstName: string,
-  lastName: string,
-  role: string
+  uid: any,
+  email: any,
+  firstName: any,
+  lastName: any,
+  role: any
 }
