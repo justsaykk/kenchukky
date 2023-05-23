@@ -20,7 +20,7 @@ type OrderData = {
 })
 export class BackendService {
   
-  BACKEND = environment.BACKEND
+  BACKEND = "https://kenchukky-server.up.railway.app"
   private _loggedInUser = new BehaviorSubject<ServerUser | null> (null)
 
   constructor(
