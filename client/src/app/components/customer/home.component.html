@@ -28,8 +28,8 @@
                   <span>Task Completion Progress:</span>
               </div>
               <!-- Progress Bar -->
-              <div class="challenge-cb-container">
-                  <mat-checkbox *ngFor="let challenge of challenges" (click)="calculateProgress($event)">
+              <div class="challenge-cb-container" #challengeContainer>
+                  <mat-checkbox *ngFor="let challenge of challenges" [disabled]="true" checked="{{check(challenge)}}" class="checkbox" id="checkbox{{challenge}}">
                   </mat-checkbox>
               </div>
               <div class="progress-bar-container">

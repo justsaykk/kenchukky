@@ -26,11 +26,18 @@ export class FirebaseFirestoreService {
     this.userProfileReference = collection(this.afs, 'users');
   }
 
-  async findUser(uid: string) {
-    const q = query(this.userProfileReference, where('uid', '==', uid));
+  async findUser(uid: string): Promise<UserDataWithRole | null> {
+    const q = query(this.userProfileReference, where("uid", "==", uid))
     const querySnapShot = await getDocs(q);
-    if (querySnapShot.empty) return null;
-    return querySnapShot.forEach((user) => user.data);
+    if (querySnapShot.empty) {return null}
+    let userData = querySnapShot.docs[0];
+    return {
+      uid: userData.get("uid"),
+      email: userData.get("email"),
+      firstName: userData.get("firstName"),
+      lastName: userData.get("lastName"),
+      role: userData.get("role")
+    } as UserDataWithRole
   }
 
   async createNewUser(userData: UserData) {

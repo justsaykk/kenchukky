@@ -1,18 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+} from '@angular/core';
 import {
   OceanCleanlinessLevels,
   Trash,
   TrashImages,
 } from '../../models/models';
+import { ScannerService } from 'src/app/services/scanner.service';
+import { getMessaging, onMessage } from '@firebase/messaging';
 
 @Component({
   selector: 'app-home',
+  changeDetection: ChangeDetectionStrategy.Default,
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
   // <--------------- OCEAN VARIABLES --------------->
-  oceanQuality: number = 80;
+  oceanQuality: number = 75;
   oceanCurrentCleanliness!: string;
   oceanCleanlinessLevels = OceanCleanlinessLevels;
 
@@ -20,39 +27,54 @@ export class HomeComponent implements OnInit {
   amountOfTrash: number = 100 - this.oceanQuality;
   trashImages = TrashImages;
   trashCollection: Trash[] = [];
-  
+
   // <--------------- USER VARIABLES --------------->
-  challenges = [1, 2, 3, 4]
-  progressValue: number = 0;
+  challenges = [1, 2, 3, 4];
+  progressValue: number = 50;
+
+  constructor(private scannerService: ScannerService) {}
 
   ngOnInit(): void {
-    this.checkOceanQuality(this.oceanQuality);
+    this.listen();
   }
 
   calculateProgress(event: any) {
-    console.info(">>> calculate progress: ", event.target.checked);
-    if(event.target.checked) this.progressValue += 25; 
-    if(event.target.checked === false) this.progressValue -= 25; 
+    console.info('>>> calculate progress: ', event.target.checked);
+    if (event.target.checked) this.progressValue += 25;
+    if (event.target.checked === false) this.progressValue -= 25;
   }
 
-  // createTrashCollection(amountOfTrash: number) {
-  //   for (let i = 0; i < amountOfTrash; i++) {
-  //     let randomTrash =
-  //       this.trashImages[this.randomizer(this.trashImages.length)];
-  //     console.info('randomTrash >>> ', randomTrash);
-  //     this.trashCollection.push(randomTrash);
-  //   }
-  // }
-
-  checkOceanQuality(oceanQuality: number) {
-    if (oceanQuality >= 75)
-      this.oceanCurrentCleanliness = this.oceanCleanlinessLevels[0];
-    else if (oceanQuality >= 50 && oceanQuality < 75)
-      this.oceanCurrentCleanliness = this.oceanCleanlinessLevels[1];
-    else this.oceanCurrentCleanliness = this.oceanCleanlinessLevels[2];
+  listen() {
+    const messaging = getMessaging();
+    console.info('Listening for notification');
+    onMessage(messaging, (payload) => {
+      this.progressValue += 25;
+      this.oceanQuality += 5;
+      console.info('Messaged received', payload);
+    });
   }
 
-  randomizer(numMax: number, numMin: number = 0) {
-    return (Math.floor(Math.random() * (numMax - numMin)) + numMin);
+  check(challenge: number) {
+    switch (challenge) {
+      case 1: {
+        if (this.progressValue >= 25) return true;
+        else return false;
+      }
+      case 2: {
+        if (this.progressValue >= 50) return true;
+        else return false;
+      }
+      case 3: {
+        if (this.progressValue >= 75) return true;
+        else return false;
+      }
+      case 4: {
+        if (this.progressValue >= 100) return true;
+        else return false;
+      }
+      default: {
+        return false;
+      }
+    }
   }
 }

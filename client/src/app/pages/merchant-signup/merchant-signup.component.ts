@@ -1,18 +1,18 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { User } from '@angular/fire/auth';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { User } from 'firebase/auth';
 import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
 import { FirebaseAuthenticationService } from 'src/app/services/firebase-authentication.service';
 import { FirebaseFirestoreService } from 'src/app/services/firebase-firestore.service';
-import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-sign-up',
-  templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.css']
+  selector: 'app-merchant-signup',
+  templateUrl: './merchant-signup.component.html',
+  styleUrls: ['./merchant-signup.component.css']
 })
-export class SignUpComponent implements OnDestroy, OnInit{
+export class MerchantSignupComponent {
   signUpForm!: FormGroup;
   authState$!: Subscription;
   authState!: User | null;
@@ -59,8 +59,8 @@ export class SignUpComponent implements OnDestroy, OnInit{
       firstName: this.signUpForm.value.firstName,
       lastName: this.signUpForm.value.lastName
     }
-    await this.firestoreSvc.createNewUser(userData);
-    this.router.navigateByUrl("/customer/home")
+    await this.firestoreSvc.createNewMerchant(userData);
+    this.router.navigateByUrl("/")
   }
 
   goBack(): void {this.location.back()}

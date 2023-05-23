@@ -4,8 +4,10 @@ import { User } from '@angular/fire/auth';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FirebaseUISignInFailure, FirebaseUISignInSuccessWithAuthResult, FirebaseuiAngularLibraryService } from 'firebaseui-angular';
-import { Subscription } from 'rxjs';
+import { Subscription, filter, take } from 'rxjs';
+import { UserDataWithRole } from 'src/app/models/models';
 import { FirebaseAuthenticationService } from 'src/app/services/firebase-authentication.service';
+import { FirebaseFirestoreService } from 'src/app/services/firebase-firestore.service';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +22,7 @@ export class LoginComponent implements OnDestroy, OnInit{
   constructor(
     private firebaseuiAngularLibraryService: FirebaseuiAngularLibraryService,
     private router: Router,
+    private afs: FirebaseFirestoreService,
     private authSvc: FirebaseAuthenticationService,
     private location: Location,
     private fb: FormBuilder 
@@ -52,7 +55,6 @@ export class LoginComponent implements OnDestroy, OnInit{
   // Code for firebaseAuth UI
   successCallback(signInSuccessData: FirebaseUISignInSuccessWithAuthResult){
     console.log(signInSuccessData)
-    this.router.navigate(["/"]);
    }
     
   errorCallback(errorData: FirebaseUISignInFailure){

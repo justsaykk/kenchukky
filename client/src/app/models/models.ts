@@ -69,3 +69,11 @@ export interface orderNotification {
   qty: number | null;
   uom: string | null;
 }
+
+export interface UserDataWithRole {
+  uid: any,
+  email: any,
+  firstName: any,
+  lastName: any,
+  role: any
+}
