@@ -34,7 +34,6 @@ export class FirebaseAuthenticationService {
 
   public async firebaseSignUp(newUser: UserCredentialForm) {
     const userCredentials: UserCredential = await createUserWithEmailAndPassword(this.auth, newUser.email, newUser.password);
-    this.backendSvc.getServerUser(userCredentials.user.uid)
     this.redirectOut()
     return userCredentials.user.uid
   }

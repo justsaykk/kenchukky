@@ -62,8 +62,11 @@ export class SignUpComponent implements OnDestroy, OnInit{
       lastName: this.signUpForm.value.lastName
     }
     await this.firestoreSvc.createNewUser(userData);
-    this.backendSvc.postNewUser(userData);
-    this.router.navigateByUrl("/customer/home")
+    let user = await this.backendSvc.postNewUser(userData);
+    console.log(user)
+    if (user) {
+      this.router.navigateByUrl("/customer/home")
+    }
   }
 
   goBack(): void {this.location.back()}
