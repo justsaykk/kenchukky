@@ -1,12 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { FirebaseAuthenticationService } from './firebase-authentication.service';
 import { BehaviorSubject, Observable, filter, firstValueFrom, map, take } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { v4 as uuidv4 } from 'uuid';
-import { User } from '@angular/fire/auth';
-import { UserDataWithRole } from '../models/models';
 import { ServerUser } from '../models/models';
 
 type OrderData = {
@@ -29,7 +26,6 @@ export class BackendService {
   constructor(
     private datePipe: DatePipe,
     private http: HttpClient,
-    private authSvc: FirebaseAuthenticationService,
   ) { }
 
   //Getters
@@ -60,16 +56,16 @@ export class BackendService {
     let headers = new HttpHeaders()
       .set("Content-Type", "application/json")
       .set("merchantId", merchantId)
-    
-    let user = this.authSvc.user$.pipe(
-      take(1),
-      filter((data): data is User => !!data),
+
+    let user = this.getLoggedInUser().pipe(
+      take(1), 
+      filter((data): data is ServerUser => !!data), 
       map(user => user))
 
     let payload: OrderData = {
       orderId: this.generateUUID(),
-      userId: (await firstValueFrom(user)).uid,
-      username: (await firstValueFrom(user)).email!,
+      userId: (await firstValueFrom(user)).userId,
+      username: (await firstValueFrom(user)).username,
       timeOfOrder: this.formatDateTime(new Date())!,
       qty: numberOfContainers,
       uom: _uom
