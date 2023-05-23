@@ -60,7 +60,7 @@ export class SignUpComponent implements OnDestroy, OnInit{
       lastName: this.signUpForm.value.lastName
     }
     await this.firestoreSvc.createNewUser(userData);
-    this.router.navigateByUrl("/")
+    this.router.navigateByUrl("/customer/home")
   }
 
   goBack(): void {this.location.back()}

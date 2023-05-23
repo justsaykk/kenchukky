@@ -1,11 +1,19 @@
-.login-page-container .login-page-container {
+.signup-page-container {
     display: flex;
     flex-direction: column;
+    padding-top: 20%;
 }
 
 .form-container {
     display: flex; 
     justify-content: center;
+    border: solid 3px black;
+    box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px,
+      5px 5px 0px 0px;
+    border-radius: 10px;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
 }
 
 .button-container {
@@ -13,6 +21,49 @@
     justify-content: center;
 }
 
-button {
-    margin: 10px auto 0px auto;
+form {
+    padding-bottom: 2vh;
 }
+
+table {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+tr {
+    display: flex;
+    justify-content: center;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 5vw;
+}
+
+button {
+    display: flex;
+    border-radius: 10%;
+    box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px,
+      5px 5px 0px 0px;
+    font-family: "Source Code Pro", monospace;
+    font-size: medium;
+    cursor: pointer;
+    border: 2px solid;
+    /* padding: 0.5em 0.7em; */
+    position: relative;
+    user-select: none;
+    touch-action: manipulation;
+    background-color: var(--primary-light-color);
+  }
+  
+  button:active {
+    box-shadow: 0px 0px 0px 0px;
+    top: 5px;
+    left: 5px;
+  }
+  
+  button:hover {
+    transform: scale(1.05) rotate(-1deg);
+  }

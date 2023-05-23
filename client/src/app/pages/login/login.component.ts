@@ -47,6 +47,7 @@ export class LoginComponent implements OnDestroy, OnInit{
       password: this.loginForm.value.password
     }
     await this.authSvc.firebaseLogin(loginData)
+    this.router.navigate(['/customer/home']);
   }
 
   // Code for firebaseAuth UI
