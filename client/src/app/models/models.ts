@@ -68,3 +68,11 @@ export interface NotificationData {
   qty: number | null,
   uom: string | null
 }
+
+export interface UserDataWithRole {
+  uid: string,
+  email: string,
+  firstName: string,
+  lastName: string,
+  role: string
+}

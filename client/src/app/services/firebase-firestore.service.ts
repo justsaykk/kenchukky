@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CollectionReference, Firestore, addDoc, collection, getDocs, query, where } from '@angular/fire/firestore';
+import { CollectionReference, DocumentData, Firestore, addDoc, collection, getDocs, query, where } from '@angular/fire/firestore';
 
 type UserData = {
   uid: string,
@@ -24,8 +24,10 @@ export class FirebaseFirestoreService {
     const q = query(this.userProfileReference, where("uid", "==", uid))
     const querySnapShot = await getDocs(q);
     if (querySnapShot.empty) 
-      return null
-    return querySnapShot.forEach(user => user.data)
+    return null
+    let userData: DocumentData = querySnapShot.docs[0];
+    console.log(userData)
+    return userData
   }
 
   async createNewUser(userData: UserData) {
