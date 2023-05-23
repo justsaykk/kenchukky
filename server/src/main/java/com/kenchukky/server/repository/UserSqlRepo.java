@@ -51,6 +51,10 @@ public class UserSqlRepo {
         return total;
     }
 
+    public boolean updateUserPoints(String userId, int points) {
+        return jdbcTemplate.update(UPDATE_USER_POINTS, points, userId) > 0;
+    }
+
     public Optional<List<UserDiscounts>> getUserDiscounts(String userId) {
         SqlRowSet rs = jdbcTemplate.queryForRowSet(GET_USER_DISCOUNTS, userId);
 

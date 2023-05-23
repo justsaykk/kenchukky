@@ -1,5 +1,6 @@
 package com.kenchukky.server.controller;
 
+import java.io.StringReader;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +29,8 @@ import com.kenchukky.server.service.UserService;
 
 import jakarta.json.Json;
 import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
 
 @RestController
 @RequestMapping("/api/user")
@@ -124,6 +128,50 @@ public class UserController {
                                     .add("totalPoints", user.getTotalPoints())
                                     .build().toString());
 
+    }
+
+    /*
+     * PUT - /api/user/points
+     * body - {
+     *  userId: string,
+     *  pointsRemaining: number
+     * }
+     * response - {
+     *  userId: string,
+     *  pointsRemaining: number
+     * }
+     */
+    @PutMapping(path="/points", produces=MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<String> updateUserPoints(@RequestBody String body) {
+        JsonReader reader = Json.createReader(new StringReader(body));
+        JsonObject json = reader.readObject();
+
+        String userId = json.getString("userId");
+        int points = json.getInt("pointsRemaining");
+
+        boolean updated;
+        try {
+            updated = userService.updateUserPoints(userId, points);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Json.createObjectBuilder()
+                            .add("message", "User Not Updated")
+                            .add("detailed_message", e.getMessage())
+                            .build().toString());
+        }
+
+        if (!updated) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Json.createObjectBuilder()
+                            .add("message", "User Not Updated")
+                            .build().toString());
+        }
+
+        return ResponseEntity.ok().body(Json.createObjectBuilder()
+                                    .add("userId", userId)
+                                    .add("totalPoints", points)
+                                    .build().toString());
     }
 
     /*
