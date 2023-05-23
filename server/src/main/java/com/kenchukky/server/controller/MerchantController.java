@@ -1,8 +1,17 @@
 package com.kenchukky.server.controller;
 
+import com.kenchukky.server.model.Merchant;
+import com.kenchukky.server.model.MerchantOrders;
+import com.kenchukky.server.model.OrderData;
+import com.kenchukky.server.service.MerchantService;
+import com.kenchukky.server.service.NotificationService;
+import jakarta.json.Json;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
+import java.io.StringReader;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,57 +24,59 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kenchukky.server.model.Merchant;
-import com.kenchukky.server.model.MerchantOrders;
-import com.kenchukky.server.model.OrderData;
-import com.kenchukky.server.service.MerchantService;
-import com.kenchukky.server.service.NotificationService;
-
-import jakarta.json.Json;
-import jakarta.json.JsonArrayBuilder;
-import jakarta.json.JsonObject;
-
 @RestController
 @RequestMapping("/api/merchant")
-@CrossOrigin()
+@CrossOrigin
 public class MerchantController {
 
-    // https://kenchukky-server.up.railway.app/
+  // https://kenchukky-server.up.railway.app/
 
-    @Autowired
-    private MerchantService merchantService;
+  @Autowired
+  private MerchantService merchantService;
 
-    @Autowired
-    private NotificationService notificationService;
+  @Autowired
+  private NotificationService notificationService;
 
-    /*
-     * GET /api/merchant
-     * query - "merchantId"
-     * response - {
-     *  merchantId: string,
-     *  merchantName: string
-     * }
-     */
-    @GetMapping
-    @ResponseBody
-    public ResponseEntity<String> getMerchantData(@RequestParam("merchantId") String merchantId) {
-        
-        Optional<Merchant> mOpt = merchantService.getMerchantData(merchantId);
+  /*
+   * GET /api/merchant
+   * query - "merchantId"
+   * response - {
+   *  merchantId: string,
+   *  merchantName: string
+   * }
+   */
+  @GetMapping
+  @ResponseBody
+  public ResponseEntity<String> getMerchantData(
+    @RequestParam("merchantId") String merchantId
+  ) {
+    Optional<Merchant> mOpt = merchantService.getMerchantData(merchantId);
 
-        if (mOpt.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .body(Json.createObjectBuilder()
-                    .add("message", "Merchant Not Found")
-                    .build().toString());
-        }
-
-        return ResponseEntity.ok().body(Json.createObjectBuilder()
-                                    .add("merchantId", mOpt.get().getMerchantId())
-                                    .add("merchantName", mOpt.get().getMerchantName())
-                                    .build().toString());
+    if (mOpt.isEmpty()) {
+      return ResponseEntity
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .body(
+          Json
+            .createObjectBuilder()
+            .add("message", "Merchant Not Found")
+            .build()
+            .toString()
+        );
     }
 
-    /*
+    return ResponseEntity
+      .ok()
+      .body(
+        Json
+          .createObjectBuilder()
+          .add("merchantId", mOpt.get().getMerchantId())
+          .add("merchantName", mOpt.get().getMerchantName())
+          .build()
+          .toString()
+      );
+  }
+
+  /*
      * GET /api/merchant/order
      * query - "orderId"
      * response - {
@@ -77,97 +88,154 @@ public class MerchantController {
         uom: string
      * }
      */
-    @GetMapping("/order")
-    @ResponseBody
-    public ResponseEntity<String> getOrderData(@RequestParam("orderId") String orderId) {
-        Optional<OrderData> odOpt = merchantService.getOrderData(orderId);
+  @GetMapping("/order")
+  @ResponseBody
+  public ResponseEntity<String> getOrderData(
+    @RequestParam("orderId") String orderId
+  ) {
+    Optional<OrderData> odOpt = merchantService.getOrderData(orderId);
 
-        if (odOpt.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Json.createObjectBuilder().add("message", "There was a problem retrieving order")
-                    .build().toString());
-        }
-
-        OrderData od = odOpt.get();
-
-        return ResponseEntity.ok().body(Json.createObjectBuilder()
-                                    .add("orderId", orderId)
-                                    .add("customerId", od.getUserId())
-                                    .add("timeOfOrder", od.getTimeOfOrder())
-                                    .add("qty", od.getQty())
-                                    .add("uom", od.getUom())
-                                    .build().toString());
+    if (odOpt.isEmpty()) {
+      return ResponseEntity
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .body(
+          Json
+            .createObjectBuilder()
+            .add("message", "There was a problem retrieving order")
+            .build()
+            .toString()
+        );
     }
 
-    /*
-     * POST - /api/merchant/order
-     * body - {
-     *  orderId: string
-     *  merchantId: string
-     *  isConfirmed: boolean
-     * }
-     * response - {
-     *  orderId: string
-     *  isConfirmed: boolean
-     * }
-     */
-    @PostMapping("/order")
-    @ResponseBody
-    public ResponseEntity<String> confirmOrCancelOrder(@RequestBody JsonObject body) {
-        String orderId = body.getString("orderId");
-        String merchantId = body.getString("merchantId");
-        boolean isConfirmed = body.getBoolean("isConfirmed");
-        
-        // confirm order in order_data table
-        boolean updated = merchantService.confirmOrCancelOrder(orderId, isConfirmed);
+    OrderData od = odOpt.get();
 
-        if (!updated) {
-            // if updating order_data table fails
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body(Json.createObjectBuilder().add("message", "There was a problem confirming order status")
-                        .build().toString());
-        }
+    return ResponseEntity
+      .ok()
+      .body(
+        Json
+          .createObjectBuilder()
+          .add("orderId", orderId)
+          .add("customerId", od.getUserId())
+          .add("timeOfOrder", od.getTimeOfOrder())
+          .add("qty", od.getQty())
+          .add("uom", od.getUom())
+          .build()
+          .toString()
+      );
+  }
 
-        if (!isConfirmed) {
-            // do nothing until order is confirmed
-            return ResponseEntity.ok().body(Json.createObjectBuilder()
-                                            .add("orderId", orderId)
-                                            .add("isConfirmed", isConfirmed)
-                                            .build().toString());
-        }
-        
-        // insert into user_orders / merchant_orders table once confirmed
-        OrderData od = merchantService.getOrderData(orderId).get();
-        Merchant m = merchantService.getMerchantData(merchantId).get();
+  /*
+   * POST - /api/merchant/order
+   * body - {
+   *  orderId: string
+   *  merchantId: string
+   *  isConfirmed: boolean
+   * }
+   * response - {
+   *  orderId: string
+   *  isConfirmed: boolean
+   * }
+   */
+  @PostMapping("/order")
+  @ResponseBody
+  public ResponseEntity<String> confirmOrCancelOrder(@RequestBody String body) {
+    JsonReader reader = Json.createReader(new StringReader(body));
+    JsonObject json = reader.readObject();
 
-        try {
-            // !! TRANSACTIONAL
-            boolean userOrderInserted = merchantService.insertOrderIntoUserOrders(od, m);
-            boolean merchantOrderInserted = merchantService.insertOrderIntoMerchantOrders(od, m);
+    String orderId = json.getString("orderId");
+    String merchantId = json.getString("merchantId");
+    boolean isConfirmed = json.getBoolean("isConfirmed");
 
-            if (!userOrderInserted || !merchantOrderInserted) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body(Json.createObjectBuilder().add("message", "There was a problem confirming order status")
-                        .build().toString());
-            }
+    // confirm order in order_data table
+    boolean updated = merchantService.confirmOrCancelOrder(
+      orderId,
+      isConfirmed
+    );
 
-        } catch (Exception e) {
-            // if transaction fails
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Json.createObjectBuilder()
-                            .add("message", "There was a problem creating the order after confirmation")
-                            .add("detailed_message", e.getMessage())
-                            .build().toString());
-        }
-        String userToken = this.notificationService.getToken(od.getUserId());
-        this.notificationService.sendNotificationToUser(userToken);
-        return ResponseEntity.ok().body(Json.createObjectBuilder()
-                                        .add("orderId", orderId)
-                                        .add("isConfirmed", isConfirmed)
-                                        .build().toString());
+    if (!updated) {
+      // if updating order_data table fails
+      return ResponseEntity
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .body(
+          Json
+            .createObjectBuilder()
+            .add("message", "There was a problem confirming order status")
+            .build()
+            .toString()
+        );
     }
 
-    /*
+    if (!isConfirmed) {
+      // do nothing until order is confirmed
+      return ResponseEntity
+        .ok()
+        .body(
+          Json
+            .createObjectBuilder()
+            .add("orderId", orderId)
+            .add("isConfirmed", isConfirmed)
+            .build()
+            .toString()
+        );
+    }
+
+    // insert into user_orders / merchant_orders table once confirmed
+    OrderData od = merchantService.getOrderData(orderId).get();
+    Merchant m = merchantService.getMerchantData(merchantId).get();
+
+    try {
+      // !! TRANSACTIONAL
+      boolean userOrderInserted = merchantService.insertOrderIntoUserOrders(
+        od,
+        m
+      );
+      boolean merchantOrderInserted = merchantService.insertOrderIntoMerchantOrders(
+        od,
+        m
+      );
+
+      if (!userOrderInserted || !merchantOrderInserted) {
+        return ResponseEntity
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(
+            Json
+              .createObjectBuilder()
+              .add("message", "There was a problem confirming order status")
+              .build()
+              .toString()
+          );
+      }
+    } catch (Exception e) {
+      // if transaction fails
+      return ResponseEntity
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .body(
+          Json
+            .createObjectBuilder()
+            .add(
+              "message",
+              "There was a problem creating the order after confirmation"
+            )
+            .add("detailed_message", e.getMessage())
+            .build()
+            .toString()
+        );
+    }
+    String userToken = this.notificationService.getToken(od.getUserId());
+    this.notificationService.sendNotificationToUser(userToken);
+    return ResponseEntity
+      .ok()
+      .body(
+        Json
+          .createObjectBuilder()
+          .add("orderId", orderId)
+          .add("isConfirmed", isConfirmed)
+          .build()
+          .toString()
+      );
+  }
+
+  /*
      * GET - /api/merchant/orders
      * query - "merchantId"
      * response - [
@@ -189,24 +257,35 @@ public class MerchantController {
             }
         ]
      */
-    @GetMapping("/orders")
-    @ResponseBody
-    public ResponseEntity<String> getMerchantRecentOrders(@RequestParam("merchantId") String merchantId) {
-        
-        Optional<List<MerchantOrders>> moListOpt = merchantService.getMerchantRecentOrders(merchantId);
+  @GetMapping("/orders")
+  @ResponseBody
+  public ResponseEntity<String> getMerchantRecentOrders(
+    @RequestParam("merchantId") String merchantId
+  ) {
+    Optional<List<MerchantOrders>> moListOpt = merchantService.getMerchantRecentOrders(
+      merchantId
+    );
 
-        if (moListOpt.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Json.createObjectBuilder()
-                            .add("message", "There was a problem retrieving orders")
-                            .build().toString());
-        }
-
-        JsonArrayBuilder jab = Json.createArrayBuilder();
-        moListOpt.get().stream().forEach(mo -> {
-            jab.add(mo.toJSON());
-        });
-
-        return ResponseEntity.ok().body(jab.build().toString());
+    if (moListOpt.isEmpty()) {
+      return ResponseEntity
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .body(
+          Json
+            .createObjectBuilder()
+            .add("message", "There was a problem retrieving orders")
+            .build()
+            .toString()
+        );
     }
+
+    JsonArrayBuilder jab = Json.createArrayBuilder();
+    moListOpt
+      .get()
+      .stream()
+      .forEach(mo -> {
+        jab.add(mo.toJSON());
+      });
+
+    return ResponseEntity.ok().body(jab.build().toString());
+  }
 }

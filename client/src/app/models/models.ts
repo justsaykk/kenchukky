@@ -61,12 +61,13 @@ export interface Order {
   uom: string;
 }
 
-export interface NotificationData {
-  senderToken: string | null,
-  orderId: string | null,
-  customerName: string | null,
-  qty: number | null,
-  uom: string | null
+export interface orderNotification {
+  senderToken: string | null;
+  orderId: string | null;
+  customerName: string | null;
+  timeOfOrder: string | null;
+  qty: number | null;
+  uom: string | null;
 }
 
 export interface UserDataWithRole {
