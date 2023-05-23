@@ -83,5 +83,5 @@ export interface ServerUser {
   username: string
   firstName: string
   lastName: string
-  points: number
+  totalPoints: number
 }

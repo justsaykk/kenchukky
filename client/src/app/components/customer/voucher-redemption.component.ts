@@ -52,7 +52,7 @@ export class VoucherRedemptionComponent implements OnInit {
       this.vouchers.push(voucher);
     })
 
-    this.userPoints = this.loggedInUser?.points!; 
+    this.userPoints = this.loggedInUser?.totalPoints!; 
     this.userDollars = (this.userPoints/300).toFixed(2);
 
   }
