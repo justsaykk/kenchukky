@@ -5,10 +5,11 @@
         <mat-card class="confirmation-card card">
             <form [formGroup]="form" (ngSubmit)="submit()">
                 <mat-card-content>
-                    <mat-form-field>
-                        <mat-label>Merchant</mat-label>
+                    <!-- <mat-form-field>
+                        <mat-label>Merchant Name</mat-label>
                         <input type="text" formControlName="merchantId" matInput required value="{{merchantId}}">
-                    </mat-form-field>
+                    </mat-form-field> -->
+                    <p *ngIf="merchantName" id="merchant-name">{{merchantName}}</p>
                     <br>
                     <mat-form-field>
                         <mat-label>Unit of Measurement</mat-label>

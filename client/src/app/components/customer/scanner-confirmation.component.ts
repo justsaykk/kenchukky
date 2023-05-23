@@ -19,6 +19,7 @@ export class ScannerConfirmationComponent implements OnInit {
   uom = uom; 
   quantity = quantity;
   merchantId!: string; 
+  merchantName: string = "Kentucky"; 
 
   constructor(
     private fb: FormBuilder,
