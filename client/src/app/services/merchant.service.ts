@@ -7,18 +7,21 @@ import { Order } from '../models/models';
   providedIn: 'root',
 })
 export class MerchantService {
+  BACKEND = "https://kenchukky-server.up.railway.app"
   constructor(private httpClient: HttpClient) {}
 
   getRecentOrders(merchantId: string): Promise<Order[]> {
+    let url = this.BACKEND + "/api/merchant/orders"
     const params = new HttpParams().set('merchantId', merchantId);
     return lastValueFrom(
-      this.httpClient.get<Order[]>('/api/merchant/orders', { params: params })
+      this.httpClient.get<Order[]>(url, { params: params })
     );
   }
 
   // FIXME: returning 500 error
   sendOrderConfirmation(orderStatus: any) {
+    let url = this.BACKEND + '/api/merchant/order'
     const body = JSON.stringify(orderStatus);
-    return lastValueFrom(this.httpClient.post('/api/merchant/order', body));
+    return lastValueFrom(this.httpClient.post(url, body));
   }
 }
