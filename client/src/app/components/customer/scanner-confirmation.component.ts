@@ -40,9 +40,9 @@ export class ScannerConfirmationComponent implements OnInit {
       // merchantId: this.fb.control('', [
       //   Validators.required,
       // ]),
-      merchantName: this.fb.control('', [
-        Validators.required,
-      ]),
+      // merchantName: this.fb.control('', [
+      //   Validators.required,
+      // ]),
       // customerId: this.fb.control('', [
       //   Validators.required,
       // ]),

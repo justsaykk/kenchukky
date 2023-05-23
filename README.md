@@ -12,15 +12,20 @@ Develop a solution to reduce plastic waste: This hackathon challenge would requi
 
 ## Our Solution
 
-Dr Bumi is an app providing rewards in the form of e-vouchers to users when they bring their own container to takweway at food establishments. Simply scan the QR code, fill up a few details, and pass the merchant your takeaway container and receive points!
+Dr Bumi is an app providing rewards in the form of e-vouchers to users when they bring their own containers for takeaway at food establishments. Simply scan the QR code, fill up a few details, and pass the merchant your takeaway container and receive points!
 
 ## How to use
+IOS: Go to settings -> Safari -> Camera -> Set as Allow
+Android: Ensure notification for chrome is enabled.
+
+We need two phones to test this application. Preferably Android phones.
 
 ### Login as Merchant
+Go to kenchukky.vercel.app
+Click "Add to Home Screen"
 
 1. Login as merchant
 
-   - Go to `/login`
    - Login with the following merchant credentials:
      - email: merchant01@merchant.com
      - password: merchant
@@ -34,10 +39,11 @@ Dr Bumi is an app providing rewards in the form of e-vouchers to users when they
    - Click on 'MY QR Code'
 
 ### Login as Customer
+Go to kenchukky.vercel.app
+Click "Add to Home Screen"
 
 1. Login as customer
 
-   - Go to `/login`
    - Login with the following user credentials:
        email: test@test.com
        password: test123
