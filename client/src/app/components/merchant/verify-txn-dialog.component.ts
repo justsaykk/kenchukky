@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { NotificationData } from 'src/app/models/models';
+import { orderNotification } from 'src/app/models/models';
 import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
@@ -10,15 +10,17 @@ import { NotificationService } from 'src/app/services/notification.service';
   styleUrls: ['./verify-txn-dialog.component.css'],
 })
 export class VerifyTxnDialogComponent {
-  ndata$!: Subscription
-  nData!: NotificationData
+  ndata$!: Subscription;
+  nData!: orderNotification;
 
   constructor(
     private dialogRef: MatDialogRef<VerifyTxnDialogComponent>,
     private notificationService: NotificationService,
     @Inject(MAT_DIALOG_DATA) public data: VerifyTxnDialogModel
   ) {
-    this.ndata$ = this.notificationService.getnotificationData().subscribe(data => this.nData = data)
+    this.ndata$ = this.notificationService
+      .getnotificationData()
+      .subscribe((data) => (this.nData = data));
   }
 
   onDismiss(): void {

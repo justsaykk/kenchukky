@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
 import { User } from '@angular/fire/auth';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { BackendService } from './backend.service';
-import { NotificationData, Order } from '../models/models';
+import { orderNotification, Order } from '../models/models';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +20,7 @@ export class NotificationService implements OnDestroy {
   user!: User | null;
   user$!: Subscription;
   private _message = new BehaviorSubject<string>('');
-  private _notificationData = new BehaviorSubject<NotificationData>({
+  private _notificationData = new BehaviorSubject<orderNotification>({
     senderToken: null,
     orderId: null,
     customerName: null,
@@ -40,7 +40,7 @@ export class NotificationService implements OnDestroy {
       let body = payload.notification?.body!;
       if (payload.data) {
         let data = payload.data;
-        let notificationData: NotificationData = {
+        let notificationData: orderNotification = {
           senderToken: data['senderToken'],
           orderId: data['orderId'],
           customerName: data['customerName'],
@@ -58,7 +58,7 @@ export class NotificationService implements OnDestroy {
   public getMessage(): Observable<string> {
     return this._message.asObservable();
   }
-  public getnotificationData(): Observable<NotificationData> {
+  public getnotificationData(): Observable<orderNotification> {
     console.log('>>> svc received notification');
     return this._notificationData.asObservable();
   }

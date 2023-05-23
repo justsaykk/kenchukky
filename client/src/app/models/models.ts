@@ -61,7 +61,7 @@ export interface Order {
   uom: string;
 }
 
-export interface NotificationData {
+export interface orderNotification {
   senderToken: string | null;
   orderId: string | null;
   customerName: string | null;
