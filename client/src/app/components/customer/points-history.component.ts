@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ServerUser } from 'src/app/models/models';
+import { BackendService } from 'src/app/services/backend.service';
 
 @Component({
   selector: 'app-points-history',
   templateUrl: './points-history.component.html',
   styleUrls: ['./points-history.component.css'],
 })
-export class PointsHistoryComponent {
+export class PointsHistoryComponent implements OnInit {
   pointsHistoryTestInput = [
     {
       transaction: 'Redeemed 3000 points for HPB voucher',
@@ -29,5 +31,21 @@ export class PointsHistoryComponent {
     },
   ];
 
+  userPoints!: number; 
+  userDollars!: string;
+  loggedInUser!: ServerUser | null;
+  
+  constructor(
+    private backendService: BackendService
+  ) {
+    this.backendService.getLoggedInUser().forEach((user) => this.loggedInUser = user)
+  }
+
+  ngOnInit(): void {
+
+    this.userPoints = this.loggedInUser?.points!; 
+    this.userDollars = (this.userPoints/300).toFixed(2);
+
+  }
 
 }

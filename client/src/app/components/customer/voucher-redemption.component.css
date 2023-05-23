@@ -63,7 +63,7 @@ mat-card-content {
   border-bottom: solid 1px black;
   padding: 8px;
   font-size: 15px;
-  width: 90vw;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -77,11 +77,14 @@ h4 {
 }
 
 h5 {
-    font-size: large;
+  font-size: large;
 }
 
 .voucher-information {
   width: 45vw;
+  max-width: 50%;
+  display: flex;
+  flex-direction: column;
 }
 
 .voucher-qty-buttons {
@@ -91,7 +94,8 @@ h5 {
 }
 
 .voucher-qty {
-    padding-right: 2vw;
+  padding-right: 2vw;
+  display: flex;
 }
 
 mat-card-actions {

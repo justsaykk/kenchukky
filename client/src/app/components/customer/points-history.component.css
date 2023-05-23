@@ -64,7 +64,8 @@ mat-card-content {
   border-bottom: solid 1px black;
   padding: 8px;
   font-size: 15px;
-  width: 89vw;
+  width: 90vw;
+  max-width: 400px;
   display: flex;
   flex-direction: column;
   text-align: justify;
