@@ -90,7 +90,24 @@ public class UserController {
     @PostMapping(consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<String> createUser(@RequestBody User user) {
-        boolean created = userService.createUser(user);
+                
+        boolean created;
+        
+        try {
+            created = userService.createUser(user);
+            if (!created) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(Json.createObjectBuilder()
+                                .add("message", "User Not Created")
+                                .build().toString());
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Json.createObjectBuilder()
+                            .add("message", "User Not Created")
+                            .add("detailed_message", e.getMessage())
+                            .build().toString());
+        }
 
         if (!created) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
