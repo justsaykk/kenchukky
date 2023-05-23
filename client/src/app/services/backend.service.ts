@@ -6,6 +6,7 @@ import { BehaviorSubject, Observable, filter, firstValueFrom, map, take } from '
 import { DatePipe } from '@angular/common';
 import { v4 as uuidv4 } from 'uuid';
 import { User } from '@angular/fire/auth';
+import { ServerUser } from '../models/models';
 
 type OrderData = {
   orderId: string,
@@ -14,14 +15,6 @@ type OrderData = {
   timeOfOrder: string,
   qty: number,
   uom: string
-}
-
-type ServerUser = {
-  userId: string,
-  username: string,
-  firstName: string,
-  lastName: string,
-  points: number
 }
 
 @Injectable({
@@ -82,6 +75,18 @@ export class BackendService {
     }
 
     this.http.post(url, payload, {headers})
+  }
+
+  public updateUserPoints(uid: string, userPoints: number) {
+    let url = this.BACKEND + "/api/user/points"
+    let headers = new HttpHeaders()
+      .set("Content-Type", "application/json")
+    
+    let payload = {
+      userId: uid,
+      pointsRemaining: userPoints
+    }
+    this.http.put(url, payload, {headers})
   }
 
   // Helper Methods

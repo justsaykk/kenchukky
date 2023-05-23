@@ -4,6 +4,7 @@ import { UserDataWithRole } from '../models/models';
 import { FirebaseFirestoreService } from './firebase-firestore.service';
 import { filter, take } from 'rxjs';
 import { Router } from '@angular/router';
+import { BackendService } from './backend.service';
 
 type UserCredentialForm = {
   email: string,
@@ -20,18 +21,20 @@ export class FirebaseAuthenticationService {
   constructor(
     private auth: Auth,
     private afs: FirebaseFirestoreService,
+    private backendSvc: BackendService,
     private router: Router
     ) { }
 
   public async firebaseLogin(login: UserCredentialForm): Promise<string | null> {
     const userCredentials: UserCredential = await signInWithEmailAndPassword(this.auth, login.email, login.password);
-    console.log("Login success!");    
+    this.backendSvc.getServerUser(userCredentials.user.uid)
     this.redirectOut();
     return userCredentials.user.email
   }
 
   public async firebaseSignUp(newUser: UserCredentialForm) {
     const userCredentials: UserCredential = await createUserWithEmailAndPassword(this.auth, newUser.email, newUser.password);
+    this.backendSvc.getServerUser(userCredentials.user.uid)
     this.redirectOut()
     return userCredentials.user.uid
   }
