@@ -16,6 +16,8 @@ Dr Bumi is an app providing rewards in the form of e-vouchers to users when they
 
 ## How to use
 
+### Login as Merchant
+
 1. Login as merchant
 
    - Go to `/login`
@@ -31,24 +33,26 @@ Dr Bumi is an app providing rewards in the form of e-vouchers to users when they
 
    - Click on 'MY QR Code'
 
-4. Login as customer
+### Login as Customer
+
+1. Login as customer
 
    - Go to `/login`
    - Login with the following user credentials:
        email: test@test.com
        password: test123
 
-5. Scan merchant QR code
+2. Scan merchant QR code
 
    - Click on the camera icon at the bottom
    - When prompted, allow notifications and access to camera
    - Scan merchant QR code to bring up order form
 
-6. Submit order form
+3. Submit order form
 
     - Input the unit and qty and click submit
 
-7. Confirm incoming order
+4. Confirm incoming order
 
     - On the merchant page, receive a notification of incoming order by customer
     - Click confirm after verifying customer brought the stated number of containers
