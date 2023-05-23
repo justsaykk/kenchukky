@@ -71,6 +71,45 @@ public class UserController {
     }
 
     /*
+     * POST /api/user
+     * body - {
+     *  userId: string,
+     *  username: string,
+     *  firstName: string,
+     *  lastName: string,
+     *  totalPoints: number
+     * }
+     * response - {
+     *  userId: string,
+     *  username: string,
+     *  firstName: string,
+     *  lastName: string,
+     *  totalPoints: number
+     * }
+     */
+    @PostMapping(consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<String> createUser(@RequestBody User user) {
+        boolean created = userService.createUser(user);
+
+        if (!created) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Json.createObjectBuilder()
+                            .add("message", "User Not Created")
+                            .build().toString());
+        }
+
+        return ResponseEntity.ok().body(Json.createObjectBuilder()
+                                    .add("userId", user.getUserId())
+                                    .add("username", user.getUsername())
+                                    .add("firstName", user.getFirstName())
+                                    .add("lastName", user.getLastName())
+                                    .add("totalPoints", user.getTotalPoints())
+                                    .build().toString());
+
+    }
+
+    /*
      * GET /api/user/discounts
      * query - "userId"
      * response - {

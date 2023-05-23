@@ -24,6 +24,10 @@ public class UserService {
         return userSqlRepo.getUserDetails(userId);
     }
 
+    public boolean createUser(User user) {
+        return userSqlRepo.createUser(user);
+    }
+
     public int getUserPoints(String userId) {
         return userSqlRepo.getUserPoints(userId);
     }
