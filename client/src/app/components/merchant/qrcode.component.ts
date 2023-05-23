@@ -1,5 +1,11 @@
-import { Component } from '@angular/core';
-import { Merchant } from 'src/app/models/models';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { filter, take } from 'rxjs';
+import { FirebaseAuthenticationService } from 'src/app/services/firebase-authentication.service';
+
+export interface DialogData {
+  merchantId: string
+}
 
 @Component({
   selector: 'app-qrcode',
@@ -7,9 +13,5 @@ import { Merchant } from 'src/app/models/models';
   styleUrls: ['./qrcode.component.css'],
 })
 export class QrcodeComponent {
-  // TODO: fetch merchant from db on init
-  merchant = {
-    merchantId: 'abcdef',
-    merchantName: 'kenchukky fried chicken',
-  };
+  constructor (@Inject(MAT_DIALOG_DATA) public data: DialogData) { }
 }

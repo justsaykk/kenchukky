@@ -14,8 +14,8 @@ export class VerifyTxnDialogComponent {
   nData!: orderNotification;
 
   constructor(
-    private dialogRef: MatDialogRef<VerifyTxnDialogComponent>,
     private notificationService: NotificationService,
+    private dialogRef: MatDialogRef<VerifyTxnDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: VerifyTxnDialogModel
   ) {
     this.ndata$ = this.notificationService
