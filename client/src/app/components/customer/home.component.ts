@@ -10,6 +10,7 @@ import {
 } from '../../models/models';
 import { ScannerService } from 'src/app/services/scanner.service';
 import { getMessaging, onMessage } from '@firebase/messaging';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -32,9 +33,13 @@ export class HomeComponent implements OnInit {
   challenges = [1, 2, 3, 4];
   progressValue: number = 50;
 
+  targetElement!: Element | null;
+  spinnerSize: number = 100
+
   constructor(private scannerService: ScannerService) {}
 
   ngOnInit(): void {
+    this.targetElement = document.querySelector('html');
     this.listen();
   }
 
@@ -52,6 +57,14 @@ export class HomeComponent implements OnInit {
       this.oceanQuality += 5;
       console.info('Messaged received', payload);
     });
+  }
+
+  myRefreshEvent(event: Subject<void>, message: string) {
+    setTimeout(() => {
+        //alert(message);
+        event.next();
+        window.location.reload();
+    }, 1000);
   }
 
   check(challenge: number) {

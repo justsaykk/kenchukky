@@ -10,13 +10,13 @@ export class VoucherRedemptionComponent implements OnInit {
   
   vouchersTestInput = [
     {
-      name: '$5 HPB eVoucher',
+      name: '$5 NEA eVoucher',
       amount: '$5',
       points: 1500,
       quantity: 0,
     },
     {
-      name: '$10 HPB eVoucher',
+      name: '$10 NEA eVoucher',
       amount: '$10',
       points: 3000,
       quantity: 0,

@@ -23,7 +23,8 @@
                     </table>
                     <div class="button-container">
                         <button type="submit">Login</button>
-                        <button type="button" (click)="goBack()">Back</button>
+                        <!-- <button type="button" (click)="goBack()">Back</button> -->
+                        <button type="button" [routerLink]="['/signup']">Register</button>
                     </div>
                 </form>
                 <firebase-ui *ngIf="!authState" (signInSuccessWithAuthResult)="successCallback($event)"
