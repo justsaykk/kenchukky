@@ -1,5 +1,6 @@
 <div class="login-page-container">
     <div class="form-container" *ngIf="!authState">
+        <div style="height: 40px;"></div>
         <mat-card class="card" >
             <mat-card-content>
                 <form class="form-input-container" [formGroup]="loginForm" (ngSubmit)="login()">
