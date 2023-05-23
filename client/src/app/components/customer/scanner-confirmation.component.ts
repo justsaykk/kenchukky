@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { filter, firstValueFrom, take } from 'rxjs';
 import { quantity, uom } from 'src/app/models/models';
 import { BackendService } from 'src/app/services/backend.service';
@@ -17,15 +18,20 @@ export class ScannerConfirmationComponent implements OnInit {
   selectUom!: string;
   uom = uom; 
   quantity = quantity;
+  merchantId!: string; 
 
   constructor(
     private fb: FormBuilder,
     private backendSvc: BackendService,
     private scannerSvc: ScannerService,
+    private router: Router,
   ) {}
   
-  ngOnInit(): void {
+  async ngOnInit() {
     this.form = this.createForm();
+    this.merchantId = await firstValueFrom(
+      this.scannerSvc.getMerchantId().pipe(take(1))
+    ); 
   }
 
   createForm(): FormGroup {
@@ -58,6 +64,12 @@ export class ScannerConfirmationComponent implements OnInit {
     let merchantId: string = await firstValueFrom(
       this.scannerSvc.getMerchantId().pipe(take(1))
       ) 
-    this.backendSvc.postCompletedForm(merchantId, this.form.value.quantity, this.form.value.uom)
+
+    try {
+      this.backendSvc.postCompletedForm(merchantId, this.form.value.quantity, this.form.value.uom)
+      this.router.navigate(['/customer/home']);
+    } catch (error) {
+      console.error(">>>>> posting order error: ", error);
+    }
   }
 }
