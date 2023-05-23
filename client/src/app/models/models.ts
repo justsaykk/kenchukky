@@ -71,9 +71,17 @@ export interface orderNotification {
 }
 
 export interface UserDataWithRole {
-  uid: any,
-  email: any,
-  firstName: any,
-  lastName: any,
+  uid: any
+  email: any
+  firstName: any
+  lastName: any
   role: any
+}
+
+export interface ServerUser {
+  userId: string
+  username: string
+  firstName: string
+  lastName: string
+  points: number
 }
