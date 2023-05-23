@@ -34,6 +34,12 @@ public class UserSqlRepo {
         return Optional.of(user);
     }
 
+    public boolean createUser(User user) {
+        return jdbcTemplate.update(CREATE_USER, user.getUserId(), user.getUsername(),
+                                            user.getFirstName(), user.getLastName(), user.getTotalPoints()) > 0;
+        
+    }
+
     public int getUserPoints(String userId) {
         SqlRowSet rs = jdbcTemplate.queryForRowSet(GET_USER_POINTS, userId);
 
@@ -43,6 +49,10 @@ public class UserSqlRepo {
         }
 
         return total;
+    }
+
+    public boolean updateUserPoints(String userId, int points) {
+        return jdbcTemplate.update(UPDATE_USER_POINTS, points, userId) > 0;
     }
 
     public Optional<List<UserDiscounts>> getUserDiscounts(String userId) {

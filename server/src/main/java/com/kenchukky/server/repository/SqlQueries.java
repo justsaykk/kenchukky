@@ -4,7 +4,11 @@ public class SqlQueries {
     
     public static final String GET_USER_DETAILS = "select * from users where user_id = ? ";
 
+    public static final String CREATE_USER = "insert into users(user_id, username, first_name, last_name, total_points) value(?, ?, ?, ?, ?)";
+
     public static final String GET_USER_POINTS = "select points_received from user_orders where user_id = ?";
+
+    public static final String UPDATE_USER_POINTS = "update users set total_points = ? where user_id = ?";
 
     public static final String GET_USER_DISCOUNTS = "select * from user_discounts where user_id = ?";
 

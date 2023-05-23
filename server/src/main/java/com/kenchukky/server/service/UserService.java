@@ -24,8 +24,16 @@ public class UserService {
         return userSqlRepo.getUserDetails(userId);
     }
 
+    public boolean createUser(User user) {
+        return userSqlRepo.createUser(user);
+    }
+
     public int getUserPoints(String userId) {
         return userSqlRepo.getUserPoints(userId);
+    }
+
+    public boolean updateUserPoints(String userId, int points) {
+        return userSqlRepo.updateUserPoints(userId, points);
     }
 
     public Optional<List<UserDiscounts>> getUserDiscounts(String userId) {

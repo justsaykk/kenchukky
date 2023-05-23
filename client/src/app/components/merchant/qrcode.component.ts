@@ -9,7 +9,7 @@ import { Merchant } from 'src/app/models/models';
 export class QrcodeComponent {
   // TODO: fetch merchant from db on init
   merchant = {
-    merchantId: '123',
+    merchantId: 'abcdef',
     merchantName: 'kenchukky fried chicken',
   };
 }

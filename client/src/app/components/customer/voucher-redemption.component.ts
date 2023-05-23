@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Voucher } from 'src/app/models/models';
+import { Subscription } from 'rxjs';
+import { ServerUser, Voucher } from 'src/app/models/models';
+import { BackendService } from 'src/app/services/backend.service';
 
 @Component({
   selector: 'app-voucher-redemption',
@@ -36,14 +38,21 @@ export class VoucherRedemptionComponent implements OnInit {
   ];
   vouchers: Voucher[] = []; 
   userPoints!: number; 
-  userDollars!: string; 
+  userDollars!: string;
+  loggedInUser!: ServerUser | null;
+
+  constructor(
+    private backendService: BackendService
+  ) {
+    this.backendService.getLoggedInUser().forEach((user) => this.loggedInUser = user)
+  }
 
   ngOnInit(): void {
     this.vouchersTestInput.map((voucher) => {
       this.vouchers.push(voucher);
     })
 
-    this.userPoints = 9200; 
+    this.userPoints = this.loggedInUser?.points!; 
     this.userDollars = (this.userPoints/300).toFixed(2);
 
   }
@@ -61,6 +70,10 @@ export class VoucherRedemptionComponent implements OnInit {
   calculateUserPoints(voucherPointsRequired: number) {
     this.userPoints = this.userPoints - voucherPointsRequired;
     this.userDollars = (this.userPoints/300).toFixed(2);
+  }
+
+  handleVoucherRedemption() {
+    this.backendService.updateUserPoints(this.loggedInUser!.userId, this.userPoints);
   }
 
 }

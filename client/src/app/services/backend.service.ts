@@ -2,11 +2,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { FirebaseAuthenticationService } from './firebase-authentication.service';
-import { filter, firstValueFrom, map, take } from 'rxjs';
+import { BehaviorSubject, Observable, filter, firstValueFrom, map, take } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { v4 as uuidv4 } from 'uuid';
 import { User } from '@angular/fire/auth';
 import { UserDataWithRole } from '../models/models';
+import { ServerUser } from '../models/models';
 
 type OrderData = {
   orderId: string,
@@ -23,12 +24,16 @@ type OrderData = {
 export class BackendService {
   
   BACKEND = environment.BACKEND
+  private _loggedInUser = new BehaviorSubject<ServerUser | null> (null)
 
   constructor(
     private datePipe: DatePipe,
     private http: HttpClient,
     private authSvc: FirebaseAuthenticationService,
   ) { }
+
+  //Getters
+  public getLoggedInUser(): Observable<ServerUser | null> {return this._loggedInUser.asObservable()}
 
   storeNotificationToken(token: string, uid: string) {
     let url = this.BACKEND + "/api/user"
@@ -42,6 +47,13 @@ export class BackendService {
     
     this.http.post(url, body, {headers})
   }
+
+  async getServerUser(uid: string): Promise<ServerUser> {
+    let url = this.BACKEND + `/api/user?userId=${uid}`
+    let serverUser = await firstValueFrom(this.http.get<ServerUser>(url));
+    this._loggedInUser.next(serverUser)
+    return serverUser;
+}
 
   async postCompletedForm(merchantId: string, numberOfContainers: number, _uom: string) {
     let url = this.BACKEND + `/api/user/order`
@@ -64,6 +76,18 @@ export class BackendService {
     }
 
     this.http.post(url, payload, {headers})
+  }
+
+  public updateUserPoints(uid: string, userPoints: number) {
+    let url = this.BACKEND + "/api/user/points"
+    let headers = new HttpHeaders()
+      .set("Content-Type", "application/json")
+    
+    let payload = {
+      userId: uid,
+      pointsRemaining: userPoints
+    }
+    this.http.put(url, payload, {headers})
   }
 
   // Helper Methods

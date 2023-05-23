@@ -61,18 +61,27 @@ export interface Order {
   uom: string;
 }
 
-export interface NotificationData {
-  senderToken: string | null,
-  orderId: string | null,
-  customerName: string | null,
-  qty: number | null,
-  uom: string | null
+export interface orderNotification {
+  senderToken: string | null;
+  orderId: string | null;
+  customerName: string | null;
+  timeOfOrder: string | null;
+  qty: number | null;
+  uom: string | null;
 }
 
 export interface UserDataWithRole {
-  uid: string,
-  email: string,
-  firstName: string,
-  lastName: string,
-  role: string
+  uid: any
+  email: any
+  firstName: any
+  lastName: any
+  role: any
+}
+
+export interface ServerUser {
+  userId: string
+  username: string
+  firstName: string
+  lastName: string
+  points: number
 }
