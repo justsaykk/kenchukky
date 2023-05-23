@@ -8,6 +8,7 @@ import {
   query,
   where,
 } from '@angular/fire/firestore';
+import { UserDataWithRole } from '../models/models';
 
 type UserData = {
   uid: string;
