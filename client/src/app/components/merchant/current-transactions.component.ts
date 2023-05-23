@@ -1,10 +1,11 @@
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { VerifyTxnDialogComponent } from './verify-txn-dialog.component';
-import { Order } from 'src/app/models/models';
+import { NotificationData, Order } from 'src/app/models/models';
 import { MerchantService } from 'src/app/services/merchant.service';
 import { Subscription } from 'rxjs';
 import { NotificationService } from 'src/app/services/notification.service';
+import { getMessaging, onMessage } from 'firebase/messaging';
 
 @Component({
   selector: 'app-current-transactions',
@@ -16,18 +17,45 @@ export class CurrentTransactionsComponent implements OnInit, OnDestroy {
   merchantId: string = 'abcdef';
   recentOrders: Order[] = [];
   notification$!: Subscription;
-  notification!: any
 
   constructor(
     private dialog: MatDialog,
     private merchantService: MerchantService,
     private notificationSvc: NotificationService
-  ) {
-    this.notification$ = this.notificationSvc.getMessage().subscribe((m: string) => this.notification = m)
-  }
+  ) {}
 
   ngOnInit(): void {
+    // generate firebase token
     this.notificationSvc.fbGenerateToken();
+
+    // get order list
+    this.getOrders();
+
+    // subscribe to notificaitons
+    this.listen();
+    // this.notification$ = this.notificationSvc
+    //   .getnotificationData()
+    //   .subscribe((orderNotification: NotificationData) => {
+    //     // TODO: remove hardcoded data
+    //     orderNotification = {
+    //       senderToken: '123',
+    //       orderId: '123',
+    //       customerName: 'customer 1',
+    //       timeOfOrder: '2023-05-12 23:43',
+    //       qty: 2,
+    //       uom: 'containers',
+    //     };
+
+    //     console.log('>>> received notification');
+
+    //     if (!!orderNotification.orderId) {
+    //       console.log(orderNotification);
+    //       this.openDialog(orderNotification);
+    //     }
+    //   });
+  }
+
+  getOrders() {
     this.merchantService
       .getRecentOrders(this.merchantId)
       .then((res) => (this.recentOrders = res))
@@ -35,29 +63,37 @@ export class CurrentTransactionsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-      this.notification$.unsubscribe();
+    this.notification$.unsubscribe();
   }
 
   // TODO: display popup when receive notification from firebase of new incoming order
-  openDialog(): void {
+  openDialog(orderNotification: NotificationData): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = false;
-    dialogConfig.data = {
-      orderId: 126,
-      customerId: '123',
-      customerName: 'chukkie',
-      timeOfOrder: '2023-05-22 21:34:00.0',
-      qty: 2,
-      uom: 'container(s)',
-    };
+    dialogConfig.data = orderNotification;
 
     const dialogRef = this.dialog.open(VerifyTxnDialogComponent, dialogConfig);
 
-    // TODO: send notification of orders status to customer after cancel or confirmation
+    // TODO: send notification of order status to customer after cancel or confirmation
     dialogRef.afterClosed().subscribe((order) => {
       console.log('The dialog was closed');
-      if (!!order) this.recentOrders = [order, ...this.recentOrders];
+      // this.merchantService.sendOrderConfirmation({
+      //   orderId: '123',
+      //   merchantId: 'abcdef',
+      //   isConfirmed: !!order,
+      // });
+
+      // refresh order list
+      this.getOrders();
+    });
+  }
+
+  listen() {
+    const messaging = getMessaging();
+    console.info('Listening for notification');
+    onMessage(messaging, (payload) => {
+      console.info('Messaged received', payload);
     });
   }
 }

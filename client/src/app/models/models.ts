@@ -62,9 +62,10 @@ export interface Order {
 }
 
 export interface NotificationData {
-  senderToken: string | null,
-  orderId: string | null,
-  customerName: string | null,
-  qty: number | null,
-  uom: string | null
+  senderToken: string | null;
+  orderId: string | null;
+  customerName: string | null;
+  timeOfOrder: string | null;
+  qty: number | null;
+  uom: string | null;
 }
