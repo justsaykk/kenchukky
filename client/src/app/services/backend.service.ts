@@ -31,8 +31,8 @@ export class BackendService {
   //Getters
   public getLoggedInUser(): Observable<ServerUser | null> {return this._loggedInUser.asObservable()}
 
-  storeNotificationToken(token: string, uid: string) {
-    let url = this.BACKEND + "/api/user"
+  async storeNotificationToken(token: string, uid: string) {
+    let url = this.BACKEND + "/api/user/token"
     let headers = new HttpHeaders()
       .set("Content-Type", "application/json")
     
@@ -40,8 +40,8 @@ export class BackendService {
       userId: uid,
       token: token
     }
-    
-    this.http.post(url, body, {headers})
+    console.log("storing token");
+    await firstValueFrom(this.http.post(url, body, {headers}));
   }
 
   async getServerUser(uid: string): Promise<ServerUser> {

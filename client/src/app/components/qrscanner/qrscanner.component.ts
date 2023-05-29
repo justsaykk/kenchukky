@@ -29,7 +29,7 @@ export class QrscannerComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     // Generate token when camera is initiated
     this.notificationService.fbGenerateToken()
     this.scanner.camerasFound.subscribe((devices: MediaDeviceInfo[]) => {

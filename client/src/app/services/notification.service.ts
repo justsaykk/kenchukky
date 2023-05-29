@@ -67,7 +67,7 @@ export class NotificationService implements OnDestroy {
     const currentToken = await getToken(this.messaging, {
       vapidKey: environment.firebase.vapidKey,
     });
-    console.log('>>> merchantFbToken: ' + currentToken);
+    console.log('>>> generatedToken: ' + currentToken);
     if (currentToken && this.user?.uid) {
       // Get redis to store {uid: token} information
       this.backendSvc.storeNotificationToken(currentToken, this.user.uid);
